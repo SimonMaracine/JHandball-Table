@@ -25,6 +25,7 @@ A score table for the european game handball
 - A main window for managing the match
 - A secondary (public) window for displaying the information
 - An initialization window
+- An about window
 
 ### Functions
 

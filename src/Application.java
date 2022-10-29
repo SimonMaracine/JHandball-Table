@@ -108,41 +108,49 @@ class Application extends JFrame {
         var pnlRightTeam = new JPanel(new GridBagLayout());
         var pnlMiddle = new JPanel(new GridBagLayout());
 
-        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(5, 5, 5, 5), 0, 0);
 
         // Left team
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.weighty = 0.2;
         pnlLeftTeam.add(lblLeftTeamName, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.weighty = 1.0;
         pnlLeftTeam.add(lstLeftTeamPlayers, constraints);
 
         // Right team
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.weighty = 0.2;
         pnlRightTeam.add(lblRightTeamName, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.weighty = 1.0;
         pnlRightTeam.add(lstRightTeamPlayers, constraints);
 
         // Middle
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.weighty = 0.2;
         pnlMiddle.add(lblLeftTeamScore, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        constraints.weighty = 0.2;
         pnlMiddle.add(lblRightTeamScore, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 2;
+        constraints.weighty = 1.0;
         pnlMiddle.add(pnlSuspendedPlayers, constraints);
 
         constraints.gridwidth = 1;
+        constraints.weighty = 1.0;
 
         // Add intermediate panels
         constraints.gridx = 0;
@@ -161,7 +169,7 @@ class Application extends JFrame {
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridheight = 2;
-        constraints.weightx = 0.9;
+        constraints.weightx = 1.0;
         constraints.weighty = 1.0;
         pnlMain.add(pnlTeams, constraints);
 
@@ -172,6 +180,11 @@ class Application extends JFrame {
 
         lstLeftTeamPlayers.setSelectionMode(SINGLE_SELECTION);
         lstRightTeamPlayers.setSelectionMode(SINGLE_SELECTION);
+
+        lblLeftTeamName.setHorizontalAlignment(JLabel.CENTER);
+        lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
+        lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
+        lblRightTeamScore.setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void setupTimer() {
@@ -181,7 +194,7 @@ class Application extends JFrame {
         var btnRightTeamTimeout = new JButton("Right Team Timeout");
         var btnRefereeTimeout = new JButton("Referee Timeout");
 
-        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(5, 5, 5, 5), 0, 0);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -198,15 +211,18 @@ class Application extends JFrame {
         constraints.gridy = 1;
         pnlTimer.add(btnRightTeamTimeout, constraints);
 
-        constraints.gridx = 2;
-        constraints.gridy = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
         pnlTimer.add(btnRefereeTimeout, constraints);
+
+        constraints.gridwidth = 1;
 
         // Add timer panel
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.weightx = 0.2;
-        constraints.weighty = 0.2;
+        constraints.weighty = 0.5;
         pnlMain.add(pnlTimer, constraints);
 
         btnLeftTeamTimeout.addActionListener(actionEvent -> leftTeamTimeout());
@@ -214,6 +230,7 @@ class Application extends JFrame {
         btnRefereeTimeout.addActionListener(actionEvent -> refereeTimeout());
 
         lblTimer.setFont(TIMER_FONT);
+        lblTimer.setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void setupPlayerOptions() {
@@ -224,7 +241,7 @@ class Application extends JFrame {
         var btnYellowCard = new JButton("Yellow Card");
         var btnRedCard = new JButton("Red Card");
 
-        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(5, 5, 5, 5), 0, 0);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -260,6 +277,8 @@ class Application extends JFrame {
         btnSuspend.addActionListener(actionEvent -> suspendPlayer());
         btnYellowCard.addActionListener(actionEvent -> giveYellowCardPlayer());
         btnRedCard.addActionListener(actionEvent -> giveRedCardPlayer());
+
+        lblSelectedPlayer.setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void initializeMatch() {

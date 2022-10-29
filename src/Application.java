@@ -81,6 +81,10 @@ class Application extends JFrame {
         menItem.addActionListener(actionEvent -> resetMatch());
         menMatch.add(menItem);
 
+        menItem = new JMenuItem("Show Public Window");
+        menItem.addActionListener(actionEvent -> showPublicWindow());
+        menMatch.add(menItem);
+
         menItem = new JMenuItem("Score Down");
         menItem.addActionListener(actionEvent -> scoreDownPlayer());
         menPlayer.add(menItem);
@@ -305,6 +309,10 @@ class Application extends JFrame {
 
     private void resetMatch() {
 
+    }
+
+    private void showPublicWindow() {
+        new PublicWindow(this);
     }
 
     private void scoreDownPlayer() {

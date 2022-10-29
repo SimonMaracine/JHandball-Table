@@ -13,7 +13,7 @@ class Application extends JFrame {
 
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 25);
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 50);
-    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 90);
+    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 100);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 

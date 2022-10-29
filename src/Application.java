@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import timer.Timer;
+import timer.TimerException;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -29,6 +31,8 @@ class Application extends JFrame {
     private final JPanel pnlSuspendedPlayers = new JPanel();
     private final JLabel lblTimer = new JLabel("00:00");
     private final JLabel lblSelectedPlayer = new JLabel("Selected player: None");
+
+    private Timer matchTimer;
 
 //    private Player selectedPlayer = null;  // TODO create Player class
 
@@ -286,11 +290,17 @@ class Application extends JFrame {
     }
 
     private void beginMatch() {
+        matchTimer = new Timer(lblTimer);
 
+        try {
+            matchTimer.start();
+        } catch (TimerException ignored) {}
     }
 
     private void endMatch() {
-
+        try {
+            matchTimer.stop();
+        } catch (TimerException ignored) {}
     }
 
     private void resetMatch() {

@@ -7,6 +7,7 @@ public class Main {
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         System.out.println(Arrays.toString(fonts));
 
+        // TODO choose fallback fonts
         Font defaultFont = new Font("Monospaced", Font.PLAIN, 14);
 
         UIManager.put("Button.font", defaultFont);

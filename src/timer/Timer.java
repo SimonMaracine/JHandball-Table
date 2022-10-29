@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class Timer implements Runnable {
     private static final long ONE_SECOND = 1000;
+    private static final int MAX_TIME = 60 * 99 + 59;
 
     private int time = 0;  // In seconds
     private boolean isRunning = false;
@@ -60,6 +61,12 @@ public class Timer implements Runnable {
                 lastSystemTime = currentSystemTime;
 
                 time++;
+
+                if (time > MAX_TIME) {
+                    try {
+                        stop();
+                    } catch (TimerException ignored) {}
+                }
 
                 SwingUtilities.invokeLater(() -> lblTime.setText(getTimeFormatted()));
             }

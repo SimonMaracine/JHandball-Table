@@ -190,8 +190,8 @@ class Application extends JFrame {
         lstRightTeamPlayers.setSelectionMode(SINGLE_SELECTION);
 
         lblLeftTeamName.setHorizontalAlignment(JLabel.CENTER);
-        lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
+        lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamScore.setHorizontalAlignment(JLabel.CENTER);
     }
 

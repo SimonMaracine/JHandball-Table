@@ -3,9 +3,9 @@ package handball;
 import java.util.ArrayList;
 
 public class Match {
-    private String date;
+    private final String date;
     private boolean hasEnded;
-    private ArrayList<Player> suspendedPlayers = new ArrayList<Player>();
+    private final ArrayList<Player> suspendedPlayers = new ArrayList<>();
 
     public Match(String date) {
         this.date = date;
@@ -15,23 +15,15 @@ public class Match {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public boolean isHasEnded() {
+    public boolean hasEnded() {
         return hasEnded;
     }
 
-    public void setHasEnded(boolean hasEnded) {
-        this.hasEnded = hasEnded;
+    public void end() {
+        this.hasEnded = true;
     }
 
     public ArrayList<Player> getSuspendedPlayers() {
         return suspendedPlayers;
-    }
-
-    public void addSuspendedPlayers(Player p) {
-        suspendedPlayers.add(p);
     }
 }

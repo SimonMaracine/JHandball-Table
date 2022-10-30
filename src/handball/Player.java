@@ -1,73 +1,92 @@
 package handball;
 
 public class Player {
-    private String name;
-    private int number;
+    private final String name;
+    private final int number;
     private int score;
     private boolean hasYellowCard;
     private boolean isSuspended;
     private int numberOfSuspensions;
-    private boolean isDisqualified;
+    private boolean hasRedCard;
 
+    private final Team team;
 
-    public Player(String name, int number) {
+    public Player(String name, int number, Team team) {
         this.name = name;
         this.number = number;
+        this.team = team;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getNumber() {
         return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void scoreUp() {
+        score++;
+        team.addToTotalScore();
     }
 
-    public boolean isHasYellowCard() {
+    public void scoreDown() {
+        score--;
+        team.removeFromTotalScore();
+    }
+
+    public boolean hasYellowCard() {
         return hasYellowCard;
     }
 
-    public void setHasYellowCard(boolean hasYellowCard) {
-        this.hasYellowCard = hasYellowCard;
+    public void giveYellowCard() {
+        hasYellowCard = true;
+        team.addToNumberOfYellowCards();
+    }
+
+    public void takeYellowCard() {
+        hasYellowCard = false;
+        team.removeFromNumberOfYellowCards();
     }
 
     public boolean isSuspended() {
         return isSuspended;
     }
 
-    public void setSuspended(boolean suspended) {
-        isSuspended = suspended;
+    public void suspend() {
+        isSuspended = true;
+        numberOfSuspensions++;
+    }
+
+    public void release() {
+        isSuspended = false;
+    }
+
+    public void release(boolean undo) {
+        isSuspended = false;
+
+        if (undo) {
+            numberOfSuspensions++;
+        }
     }
 
     public int getNumberOfSuspensions() {
         return numberOfSuspensions;
     }
 
-    public void setNumberOfSuspensions(int numberOfSuspensions) {
-        this.numberOfSuspensions = numberOfSuspensions;
+    public boolean hasRedCard() {
+        return hasRedCard;
     }
 
-    public boolean isDisqualified() {
-        return isDisqualified;
+    public void giveRedCard() {
+        hasRedCard = true;
     }
 
-    public void setDisqualified(boolean disqualified) {
-        isDisqualified = disqualified;
+    public void takeRedCard() {
+        this.hasRedCard = false;
     }
 }

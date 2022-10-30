@@ -3,11 +3,11 @@ package handball;
 import java.util.ArrayList;
 
 public class Team {
-    private String name;
-    private int totalScore;
-    private int numberOfTimeoutCalls;
-    private int numberOfYellowCards;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private final String name;
+    private int totalScore = 0;
+    private int numberOfTimeoutCalls = 0;
+    private int numberOfYellowCards = 0;
+    private final ArrayList<Player> players = new ArrayList<>();
 
     public Team(String name) {
         this.name = name;
@@ -17,39 +17,43 @@ public class Team {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
+    public void addToTotalScore() {
+        totalScore++;
+    }
+
+    public void removeFromTotalScore() {
+        totalScore--;
     }
 
     public int getNumberOfTimeoutCalls() {
         return numberOfTimeoutCalls;
     }
 
-    public void setNumberOfTimeoutCalls(int numberOfTimeoutCalls) {
-        this.numberOfTimeoutCalls = numberOfTimeoutCalls;
+    public void addToNumberOfTimeoutCalls() {
+        numberOfTimeoutCalls++;
+    }
+
+    public void removeFromNumberOfTimeoutCalls() {
+        numberOfTimeoutCalls--;
     }
 
     public int getNumberOfYellowCards() {
         return numberOfYellowCards;
     }
 
-    public void setNumberOfYellowCards(int numberOfYellowCards) {
-        this.numberOfYellowCards = numberOfYellowCards;
+    public void addToNumberOfYellowCards() {
+        numberOfYellowCards++;
+    }
+
+    public void removeFromNumberOfYellowCards() {
+        numberOfYellowCards--;
     }
 
     public ArrayList<Player> getPlayers() {
         return players;
-    }
-
-    public void addPlayers(Player p) {
-        players.add(p);
     }
 }

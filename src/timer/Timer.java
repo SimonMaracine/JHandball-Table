@@ -54,10 +54,12 @@ public class Timer implements Runnable {
 
     @Override
     public void run() {
+        lastSystemTime = System.currentTimeMillis();
+
         while (isRunning) {
             final long currentSystemTime = System.currentTimeMillis();
 
-            if (currentSystemTime > lastSystemTime + ONE_SECOND) {
+            if (currentSystemTime > lastSystemTime + ONE_SECOND) {  // TODO this can be improved
                 lastSystemTime = currentSystemTime;
 
                 time++;

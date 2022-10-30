@@ -29,6 +29,8 @@ class InitializeWindow extends JFrame {
 
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
+
+        Logging.info("Initialized initialize window");
     }
 
     private void setupLayout() {
@@ -139,5 +141,7 @@ class InitializeWindow extends JFrame {
 
     private void cancel() {
         dispose();
+
+        Logging.info("Cancelled initialize window");
     }
 }

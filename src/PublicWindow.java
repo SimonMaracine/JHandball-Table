@@ -35,6 +35,8 @@ class PublicWindow extends JFrame {
 
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
+
+        Logging.info("Initialized public window");
     }
 
     private void setupLayout() {

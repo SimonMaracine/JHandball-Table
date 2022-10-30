@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        Logging.initialize();
+
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         System.out.println(Arrays.toString(fonts));
 
@@ -17,6 +19,8 @@ public class Main {
         UIManager.put("MenuBar.font", defaultFont);
         UIManager.put("Menu.font", defaultFont);
         UIManager.put("MenuItem.font", defaultFont);
+
+        Logging.info("Starting GUI...");
 
         SwingUtilities.invokeLater(Application::new);
     }

@@ -55,7 +55,24 @@ public class Application extends JFrame {
     }
 
     void initializeTeams() {
-        // TODO add all match data to GUI
+        assert match != null;
+
+        lblLeftTeamName.setText(match.getLeftTeam().getName());
+        lblRightTeamName.setText(match.getRightTeam().getName());
+
+        for (int i = 0; i < match.getLeftTeam().getPlayers().length; i++) {
+            final Player player = match.getLeftTeam().getPlayers()[i];
+            final String entry = player.getName() + "[" + player.getNumber() + "]";
+
+            leftTeamPlayers.add(i, entry);
+        }
+
+        for (int i = 0; i < match.getRightTeam().getPlayers().length; i++) {
+            final Player player = match.getRightTeam().getPlayers()[i];
+            final String entry = player.getName() + "[" + player.getNumber() + "]";
+
+            rightTeamPlayers.add(i, entry);
+        }
     }
 
     private void setupLayout() {

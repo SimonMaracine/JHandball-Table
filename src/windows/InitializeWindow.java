@@ -147,8 +147,69 @@ public class InitializeWindow extends JFrame {
         pack();
     }
 
+    public void showEmptyPopup(String parameter){
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
+    }
+    public void showNumberPopup(){
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted!");
+    }
+    public void showNumberBoundPopup(String parameter){
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, "Only numbers between 1 - 99 are accepted for " + parameter + "!");
+    }
+
     private void apply() {
         // TODO handle errors
+
+
+
+        if(txtLeftTeamName.getText().length()==0){
+            showEmptyPopup("Team 1");
+            return;
+        }
+        if(txtRightTeamName.getText().length()==0){
+            showEmptyPopup("Team 2");
+            return;
+        }
+        for(int i = 0; i < 7; i++) {
+            if (txtLeftTeamPlayerNames[i].getText().length() == 0) {
+                showEmptyPopup("Team 1 Player Name");
+                return;
+            }
+            if (txtLeftTeamPlayerNumbers[i].getText().length() == 0) {
+                showEmptyPopup("Team 1 Player Number");
+                return;
+            }
+            if (!txtLeftTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
+                showNumberPopup();
+                if(Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()) > 0 && Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()) < 100){
+                    showNumberBoundPopup("Team 1 player " + i++);
+                    return;
+                }
+                return;
+            }
+        }
+        for(int i = 0; i < 7; i++) {
+            if(txtRightTeamPlayerNames[i].getText().length()==0) {
+                showEmptyPopup("Team 2 Player Name");
+                return;
+            }
+            if(txtRightTeamPlayerNumbers[i].getText().length()==0){
+                showEmptyPopup("Team 2 Player Number");
+                return;
+            }
+            if(!txtRightTeamPlayerNumbers[i].getText().matches("[0-9]+")){
+                showNumberPopup();
+                if(Integer.parseInt(txtRightTeamPlayerNumbers[i].getText())>0 && Integer.parseInt(txtRightTeamPlayerNumbers[i].getText())<100){
+                    showNumberBoundPopup("Team 2 player " + i++);
+                    return;
+                }
+                return;
+            }
+        }
+
 
         Team leftTeam = new Team(txtLeftTeamName.getText());
 

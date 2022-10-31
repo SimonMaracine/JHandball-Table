@@ -7,14 +7,12 @@ import other.Logging;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Date;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
-public class InitializeWindow extends JFrame {
+class InitializeWindow extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 
@@ -156,92 +154,91 @@ public class InitializeWindow extends JFrame {
         pack();
     }
 
-    public void showEmptyPopup(String parameter){
+    private void showEmptyPopup(String parameter) {
         JFrame jFrame = new JFrame();
         JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
     }
-    public void showNumberPopup(){
+
+    private void showNumberPopup(int team, int number) {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted!");
+        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", number " + number + "!");
     }
-    public void showNumberBoundPopup(String parameter){
+
+    private void showNumberBoundPopup(int team, int number) {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Only numbers between 1 - 99 are accepted for " + parameter + "!");
+        JOptionPane.showMessageDialog(
+            jFrame, "Only numbers between 1 and 99 are accepted for team " + team + ", number " + number + "!"
+        );
     }
 
     private void apply() {
-        // TODO handle errors
-
-
-
-        if(txtLeftTeamName.getText().length()==0){
+        // Check input first
+        if (txtLeftTeamName.getText().length() == 0) {
             showEmptyPopup("Team 1");
             return;
         }
-        if(txtRightTeamName.getText().length()==0){
-            showEmptyPopup("Team 2");
-            return;
-        }
-        for(int i = 0; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             if (txtLeftTeamPlayerNames[i].getText().length() == 0) {
-                showEmptyPopup("Team 1 Player Name");
+                showEmptyPopup("Team 1, name " + (i + 1));
                 return;
             }
             if (txtLeftTeamPlayerNumbers[i].getText().length() == 0) {
-                showEmptyPopup("Team 1 Player Number");
+                showEmptyPopup("Team 1, number " + (i + 1));
                 return;
             }
             if (!txtLeftTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
-                showNumberPopup();
-                if(Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()) > 0 && Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()) < 100){
-                    showNumberBoundPopup("Team 1 player " + i++);
-                    return;
-                }
+                showNumberPopup(1, i + 1);
                 return;
             }
-        }
-        for(int i = 0; i < 7; i++) {
-            if(txtRightTeamPlayerNames[i].getText().length()==0) {
-                showEmptyPopup("Team 2 Player Name");
-                return;
-            }
-            if(txtRightTeamPlayerNumbers[i].getText().length()==0){
-                showEmptyPopup("Team 2 Player Number");
-                return;
-            }
-            if(!txtRightTeamPlayerNumbers[i].getText().matches("[0-9]+")){
-                showNumberPopup();
-                if(Integer.parseInt(txtRightTeamPlayerNumbers[i].getText())>0 && Integer.parseInt(txtRightTeamPlayerNumbers[i].getText())<100){
-                    showNumberBoundPopup("Team 2 player " + i++);
-                    return;
-                }
+
+            final int playerNumber = Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText());
+            if (playerNumber < 1 || playerNumber > 99) {
+                showNumberBoundPopup(1, i + 1);
                 return;
             }
         }
 
+        if (txtRightTeamName.getText().length() == 0) {
+            showEmptyPopup("Team 2");
+            return;
+        }
+        for (int i = 0; i < 7; i++) {
+            if (txtRightTeamPlayerNames[i].getText().length() == 0) {
+                showEmptyPopup("Team 2, name " + (i + 1));
+                return;
+            }
+            if (txtRightTeamPlayerNumbers[i].getText().length() == 0) {
+                showEmptyPopup("Team 2, number " + (i + 1));
+                return;
+            }
+            if (!txtRightTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
+                showNumberPopup(2, i + 1);
+                return;
+            }
 
+            final int playerNumber = Integer.parseInt(txtRightTeamPlayerNumbers[i].getText());
+            if (playerNumber < 1 || playerNumber > 99) {
+                showNumberBoundPopup(2, i + 1);
+                return;
+            }
+        }
+
+        // Create objects
         Team leftTeam = new Team(txtLeftTeamName.getText());
+        Team rightTeam = new Team(txtRightTeamName.getText());
 
         for (int i = 0; i < 7; i++) {
-            Player player = new Player(
+            leftTeam.getPlayers()[i] = new Player(
                 txtLeftTeamPlayerNames[i].getText(),
                 Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()),
                 leftTeam
             );
 
-            leftTeam.getPlayers()[i] = player;
-        }
-
-        Team rightTeam = new Team(txtRightTeamName.getText());
-
-        for (int i = 0; i < 7; i++) {
-            Player player = new Player(
+            rightTeam.getPlayers()[i] = new Player(
                 txtRightTeamPlayerNames[i].getText(),
                 Integer.parseInt(txtRightTeamPlayerNumbers[i].getText()),
                 rightTeam
             );
-
-            rightTeam.getPlayers()[i] = player;
         }
 
         application.match = new Match(leftTeam, rightTeam, new Date());

@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
+
 import timer.Timer;
 import timer.TimerException;
 
@@ -44,6 +46,8 @@ class Application extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
+
+        Logging.info("Initialized main window");
     }
 
     private void setupLayout() {
@@ -299,12 +303,16 @@ class Application extends JFrame {
         try {
             matchTimer.start();
         } catch (TimerException ignored) {}
+
+        Logging.info("Started match");
     }
 
     private void endMatch() {
         try {
             matchTimer.stop();
         } catch (TimerException ignored) {}
+
+        Logging.info("Ended match");
     }
 
     private void resetMatch() {

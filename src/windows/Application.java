@@ -226,34 +226,52 @@ public class Application extends JFrame {
 
     private void setupTimer() {
         var pnlTimer = new JPanel(new GridBagLayout());
+        var pnlButtons = new JPanel(new GridBagLayout());
 
-        var btnLeftTeamTimeout = new JButton("Left Team Timeout");
-        var btnRightTeamTimeout = new JButton("Right Team Timeout");
+        var btnLeftTeamTimeout = new JButton("L Team Timeout");
+        var btnRightTeamTimeout = new JButton("R Team Timeout");
         var btnRefereeTimeout = new JButton("Referee Timeout");
 
         var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(5, 5, 5, 5), 0, 0);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridwidth = 3;
         pnlTimer.add(lblTimer, constraints);
 
-        constraints.gridwidth = 1;
-
         constraints.gridx = 0;
         constraints.gridy = 1;
-        pnlTimer.add(btnLeftTeamTimeout, constraints);
+        pnlTimer.add(pnlButtons, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnLeftTeamTimeout, constraints);
 
         constraints.gridx = 1;
-        constraints.gridy = 1;
-        pnlTimer.add(btnRightTeamTimeout, constraints);
+        constraints.gridy = 0;
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnRightTeamTimeout, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy = 1;
         constraints.gridwidth = 2;
-        pnlTimer.add(btnRefereeTimeout, constraints);
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnRefereeTimeout, constraints);
 
         constraints.gridwidth = 1;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.ipadx = 0;
+        constraints.ipady = 0;
 
         // Add timer panel
         constraints.gridx = 1;
@@ -272,6 +290,7 @@ public class Application extends JFrame {
 
     private void setupPlayerOptions() {
         var pnlPlayerOptions = new JPanel(new GridBagLayout());
+        var pnlButtons = new JPanel(new GridBagLayout());
 
         var btnScore = new JButton("Score");
         var btnSuspend = new JButton("Suspend");
@@ -282,26 +301,48 @@ public class Application extends JFrame {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
         pnlPlayerOptions.add(lblSelectedPlayer, constraints);
 
-        constraints.gridwidth = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        pnlPlayerOptions.add(pnlButtons, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
-        pnlPlayerOptions.add(btnScore, constraints);
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnScore, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        pnlPlayerOptions.add(btnSuspend, constraints);
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnSuspend, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 2;
-        pnlPlayerOptions.add(btnYellowCard, constraints);
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnYellowCard, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        pnlPlayerOptions.add(btnRedCard, constraints);
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 20;
+        constraints.ipady = 20;
+        pnlButtons.add(btnRedCard, constraints);
+
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.ipadx = 0;
+        constraints.ipady = 0;
 
         // Add player options panel
         constraints.gridx = 1;

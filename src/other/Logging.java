@@ -6,7 +6,7 @@ import java.util.logging.*;
 public class Logging {
     private static final Logger logger = Logger.getLogger("main");
 
-    public static void initialize() {
+    public static void initialize() {  // TODO maybe make option for file logger
         LogManager.getLogManager().reset();
 
         var handler = new ConsoleHandler();

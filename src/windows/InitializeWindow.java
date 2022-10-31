@@ -54,10 +54,10 @@ class InitializeWindow extends JFrame {
         var constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(5, 5, 5, 5), 0, 0);
 
         for (int i = 0; i < 7; i++) {
-            txtLeftTeamPlayerNames[i] = new JTextField();
-            txtRightTeamPlayerNames[i] = new JTextField();
-            txtLeftTeamPlayerNumbers[i] = new JTextField();
-            txtRightTeamPlayerNumbers[i] = new JTextField();
+            txtLeftTeamPlayerNames[i] = new JTextField(12);
+            txtRightTeamPlayerNames[i] = new JTextField(12);
+            txtLeftTeamPlayerNumbers[i] = new JTextField(1);
+            txtRightTeamPlayerNumbers[i] = new JTextField(1);
         }
 
         // Left team
@@ -115,11 +115,24 @@ class InitializeWindow extends JFrame {
         // Buttons
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 30;
+        constraints.ipady = 30;
         pnlConfigure.add(btnApply, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
+        constraints.ipadx = 30;
+        constraints.ipady = 30;
         pnlConfigure.add(btnCancel, constraints);
+
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.ipadx = 0;
+        constraints.ipady = 0;
 
         // Put everything together
         constraints.gridx = 0;
@@ -148,6 +161,8 @@ class InitializeWindow extends JFrame {
         tempButton.addActionListener(actionEvent -> __fillEntries());
         constraints.gridx = 0;
         constraints.gridy = 2;
+        constraints.weightx = 0.0;
+        constraints.weighty = 0.0;
         pnlConfigure.add(tempButton, constraints);
 
         add(pnlMain);

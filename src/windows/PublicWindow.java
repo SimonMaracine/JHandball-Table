@@ -1,3 +1,5 @@
+package windows;
+
 import other.Logging;
 
 import javax.swing.*;
@@ -6,7 +8,7 @@ import java.awt.*;
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
-class PublicWindow extends JFrame {
+public class PublicWindow extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 

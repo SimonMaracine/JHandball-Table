@@ -1,4 +1,5 @@
 import other.Logging;
+import windows.Application;
 
 import javax.swing.*;
 import java.awt.*;

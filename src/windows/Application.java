@@ -1,3 +1,5 @@
+package windows;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +13,7 @@ import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
-class Application extends JFrame {
+public class Application extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 
@@ -40,7 +42,7 @@ class Application extends JFrame {
     Match match = null;
     private Player selectedPlayer = null;
 
-    Application() {
+    public Application() {
         super("JHandball Table");
 
         setupLayout();

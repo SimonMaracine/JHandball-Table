@@ -1,3 +1,5 @@
+package windows;
+
 import handball.Match;
 import handball.Player;
 import handball.Team;
@@ -10,7 +12,7 @@ import java.util.Date;
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
-class InitializeWindow extends JFrame {
+public class InitializeWindow extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 

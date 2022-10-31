@@ -5,6 +5,8 @@ import other.Logging;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 import static java.awt.GridBagConstraints.BOTH;
@@ -141,6 +143,13 @@ class InitializeWindow extends JFrame {
         btnApply.addActionListener(actionEvent -> apply());
         btnCancel.addActionListener(actionEvent -> cancel());
 
+        // TODO temporary; delete this later!
+        var tempButton = new JButton("Click Me");
+        tempButton.addActionListener(actionEvent -> __fillEntries());
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        pnlConfigure.add(tempButton, constraints);
+
         add(pnlMain);
         pack();
     }
@@ -184,5 +193,43 @@ class InitializeWindow extends JFrame {
         dispose();
 
         Logging.info("Cancelled initialize window");
+    }
+
+    // TODO temporary; delete this later!
+    private void __fillEntries() {
+        txtLeftTeamName.setText("Losers");
+        txtRightTeamName.setText("Players");
+
+        txtLeftTeamPlayerNames[0].setText("Simon");
+        txtLeftTeamPlayerNames[1].setText("Theodore");
+        txtLeftTeamPlayerNames[2].setText("Alex");
+        txtLeftTeamPlayerNames[3].setText("Jane");
+        txtLeftTeamPlayerNames[4].setText("Pal");
+        txtLeftTeamPlayerNames[5].setText("Hmm");
+        txtLeftTeamPlayerNames[6].setText("Dory");
+
+        txtLeftTeamPlayerNumbers[0].setText("20");
+        txtLeftTeamPlayerNumbers[1].setText("24");
+        txtLeftTeamPlayerNumbers[2].setText("81");
+        txtLeftTeamPlayerNumbers[3].setText("1");
+        txtLeftTeamPlayerNumbers[4].setText("89");
+        txtLeftTeamPlayerNumbers[5].setText("13");
+        txtLeftTeamPlayerNumbers[6].setText("43");
+
+        txtRightTeamPlayerNames[0].setText("Adrian");
+        txtRightTeamPlayerNames[1].setText("Paul");
+        txtRightTeamPlayerNames[2].setText("Sandy");
+        txtRightTeamPlayerNames[3].setText("Jordan");
+        txtRightTeamPlayerNames[4].setText("Qwerty");
+        txtRightTeamPlayerNames[5].setText("Hello");
+        txtRightTeamPlayerNames[6].setText("World");
+
+        txtRightTeamPlayerNumbers[0].setText("93");
+        txtRightTeamPlayerNumbers[1].setText("76");
+        txtRightTeamPlayerNumbers[2].setText("10");
+        txtRightTeamPlayerNumbers[3].setText("50");
+        txtRightTeamPlayerNumbers[4].setText("11");
+        txtRightTeamPlayerNumbers[5].setText("66");
+        txtRightTeamPlayerNumbers[6].setText("48");
     }
 }

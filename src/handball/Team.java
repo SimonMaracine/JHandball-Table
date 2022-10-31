@@ -21,11 +21,11 @@ public class Team {
         return totalScore;
     }
 
-    public void addToTotalScore() {
+    void addToTotalScore() {
         totalScore++;
     }
 
-    public void removeFromTotalScore() {
+    void removeFromTotalScore() {
         totalScore--;
     }
 
@@ -45,11 +45,11 @@ public class Team {
         return numberOfYellowCards;
     }
 
-    public void addToNumberOfYellowCards() {
+    void addToNumberOfYellowCards() {
         numberOfYellowCards++;
     }
 
-    public void removeFromNumberOfYellowCards() {
+    void removeFromNumberOfYellowCards() {
         numberOfYellowCards--;
     }
 

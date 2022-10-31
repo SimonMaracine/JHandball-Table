@@ -27,8 +27,12 @@ class InitializeWindow extends JFrame {
     private final JButton btnApply = new JButton("Apply");
     private final JButton btnCancel = new JButton("Cancel");
 
-    InitializeWindow() {
+    private final Application application;
+
+    InitializeWindow(Application application) {
         super("JHandball Table");
+
+        this.application = application;
 
         setupLayout();
 
@@ -141,7 +145,7 @@ class InitializeWindow extends JFrame {
     }
 
     private void apply() {
-        // TODO process input, create two Team objects and a Match object
+        // TODO handle errors
 
         Team leftTeam = new Team(txtLeftTeamName.getText());
 
@@ -155,17 +159,22 @@ class InitializeWindow extends JFrame {
             leftTeam.getPlayers()[i] = player;
         }
 
+        Team rightTeam = new Team(txtRightTeamName.getText());
 
+        for (int i = 0; i < 7; i++) {
+            Player player = new Player(
+                txtRightTeamPlayerNames[i].getText(),
+                Integer.parseInt(txtRightTeamPlayerNumbers[i].getText()),
+                rightTeam
+            );
 
+            rightTeam.getPlayers()[i] = player;
+        }
 
-        Team rightTeam = new Team("Losers");
+        application.match = new Match(leftTeam, rightTeam, new Date());
+        application.initializeTeams();
 
-//        Team leftTeam = new Team("Losers");
-//        leftTeam.getPlayers()[0] = new Player("Simon", 8, leftTeam);
-//
-//        Team rightTeam = new Team("Happies");
-//
-//        Match match = new Match(leftTeam, rightTeam, new Date());
+        Logging.info("Created a new match");
     }
 
     private void cancel() {

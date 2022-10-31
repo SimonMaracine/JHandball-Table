@@ -37,7 +37,7 @@ class Application extends JFrame {
     private final JLabel lblSelectedPlayer = new JLabel("Selected player: None");
 
     private Timer matchTimer = null;
-    private Match match = null;
+    Match match = null;
     private Player selectedPlayer = null;
 
     Application() {
@@ -50,6 +50,10 @@ class Application extends JFrame {
         setVisible(true);
 
         Logging.info("Initialized main window");
+    }
+
+    void initializeTeams() {
+        // TODO add all match data to GUI
     }
 
     private void setupLayout() {
@@ -296,7 +300,7 @@ class Application extends JFrame {
     }
 
     private void initializeMatch() {
-        new InitializeWindow();
+        new InitializeWindow(this);
     }
 
     private void beginMatch() {

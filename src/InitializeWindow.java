@@ -1,6 +1,7 @@
 import handball.Match;
 import handball.Player;
 import handball.Team;
+import other.Logging;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,9 @@
 package timer;
 
+import other.Logging;
+
 import javax.swing.*;
+import java.util.logging.Logger;
 
 public class Timer implements Runnable {
     private static final long ONE_SECOND = 1000;
@@ -9,8 +12,6 @@ public class Timer implements Runnable {
     private int time = 0;  // In seconds
     private boolean isRunning = false;
     private Thread thread;
-
-    private long lastSystemTime = 0;  // In milliseconds, from System
 
     private final JLabel lblTime;
 
@@ -42,6 +43,8 @@ public class Timer implements Runnable {
 
         thread = new Thread(this);
         thread.start();
+
+        Logging.info("Started timer");
     }
 
     public void stop() throws TimerException {
@@ -50,11 +53,13 @@ public class Timer implements Runnable {
         }
 
         isRunning = false;
+
+        Logging.info("Stopped timer");
     }
 
     @Override
     public void run() {
-        lastSystemTime = System.currentTimeMillis();
+        long lastSystemTime = System.currentTimeMillis();
 
         while (isRunning) {
             final long currentSystemTime = System.currentTimeMillis();

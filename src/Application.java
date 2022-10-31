@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.logging.Logger;
 
 import handball.Match;
 import handball.Player;
+import other.Logging;
 import timer.Timer;
 import timer.TimerException;
 

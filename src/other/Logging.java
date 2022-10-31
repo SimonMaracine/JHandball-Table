@@ -1,3 +1,5 @@
+package other;
+
 import java.util.Date;
 import java.util.logging.*;
 

@@ -1,18 +1,31 @@
 package handball;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Match {
-    private final String date;
+    private final Team leftTeam;
+    private final Team rightTeam;
+    private final Date date;
     private boolean hasEnded;
     private final ArrayList<Player> suspendedPlayers = new ArrayList<>();
 
-    public Match(String date) {
+    public Match(Team leftTeam, Team rightTeam, Date date) {
+        this.leftTeam = leftTeam;
+        this.rightTeam = rightTeam;
         this.date = date;
     }
 
+    public Team getLeftTeam() {
+        return leftTeam;
+    }
+
+    public Team getRightTeam() {
+        return rightTeam;
+    }
+
     public String getDate() {
-        return date;
+        return date.toString();
     }
 
     public boolean hasEnded() {

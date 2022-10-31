@@ -7,7 +7,7 @@ public class Team {
     private int totalScore = 0;
     private int numberOfTimeoutCalls = 0;
     private int numberOfYellowCards = 0;
-    private final ArrayList<Player> players = new ArrayList<>();
+    private final Player[] players = new Player[7];
 
     public Team(String name) {
         this.name = name;
@@ -53,7 +53,7 @@ public class Team {
         numberOfYellowCards--;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public Player[] getPlayers() {
         return players;
     }
 }

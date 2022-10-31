@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.logging.Logger;
 
+import handball.Match;
+import handball.Player;
 import timer.Timer;
 import timer.TimerException;
 
@@ -34,9 +36,9 @@ class Application extends JFrame {
     private final JLabel lblTimer = new JLabel("00:00");
     private final JLabel lblSelectedPlayer = new JLabel("Selected player: None");
 
-    private Timer matchTimer;
-
-//    private Player selectedPlayer = null;  // TODO create Player class
+    private Timer matchTimer = null;
+    private Match match = null;
+    private Player selectedPlayer = null;
 
     Application() {
         super("JHandball Table");

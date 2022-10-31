@@ -1,5 +1,10 @@
+import handball.Match;
+import handball.Player;
+import handball.Team;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -136,7 +141,31 @@ class InitializeWindow extends JFrame {
     }
 
     private void apply() {
-        // TODO process input and create two Team objects
+        // TODO process input, create two Team objects and a Match object
+
+        Team leftTeam = new Team(txtLeftTeamName.getText());
+
+        for (int i = 0; i < 7; i++) {
+            Player player = new Player(
+                txtLeftTeamPlayerNames[i].getText(),
+                Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText()),
+                leftTeam
+            );
+
+            leftTeam.getPlayers()[i] = player;
+        }
+
+
+
+
+        Team rightTeam = new Team("Losers");
+
+//        Team leftTeam = new Team("Losers");
+//        leftTeam.getPlayers()[0] = new Player("Simon", 8, leftTeam);
+//
+//        Team rightTeam = new Team("Happies");
+//
+//        Match match = new Match(leftTeam, rightTeam, new Date());
     }
 
     private void cancel() {

@@ -3,11 +3,11 @@ package handball;
 public class Player {
     private final String name;
     private final int number;
-    private int score;
-    private boolean hasYellowCard;
-    private boolean isSuspended;
-    private int numberOfSuspensions;
-    private boolean hasRedCard;
+    private int score = 0;
+    private boolean hasYellowCard = false;
+    private boolean isSuspended = false;
+    private int numberOfSuspensions = 0;
+    private boolean hasRedCard = false;
 
     private final Team team;
 

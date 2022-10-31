@@ -33,7 +33,7 @@ class InitializeWindow extends JFrame {
     private final Application application;
 
     InitializeWindow(Application application) {
-        super("JHandball Table");
+        super("Initialize Match");
 
         this.application = application;
 
@@ -42,7 +42,7 @@ class InitializeWindow extends JFrame {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
 
-        Logging.info("Initialized initialize window");
+        Logging.info("Created initialize window");
     }
 
     private void setupLayout() {

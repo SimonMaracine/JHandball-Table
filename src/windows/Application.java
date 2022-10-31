@@ -51,7 +51,7 @@ public class Application extends JFrame {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
 
-        Logging.info("Initialized main window");
+        Logging.info("Created main window");
     }
 
     void initializeTeams() {

@@ -175,6 +175,8 @@ class InitializeWindow extends JFrame {
         application.match = new Match(leftTeam, rightTeam, new Date());
         application.initializeTeams();
 
+        dispose();
+
         Logging.info("Created a new match");
     }
 

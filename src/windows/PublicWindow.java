@@ -8,13 +8,13 @@ import java.awt.*;
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
-public class PublicWindow extends JFrame {
+class PublicWindow extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 
-    private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 25);  // TODO choose fallback fonts
-    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 50);
-    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 100);
+    private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 40);  // TODO choose fallback fonts
+    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 80);
+    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 120);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 

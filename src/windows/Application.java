@@ -17,9 +17,9 @@ public class Application extends JFrame {
     private static final int MIN_WIDTH = 1024;
     private static final int MIN_HEIGHT = 576;
 
-    private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 25);  // TODO choose fallback fonts
-    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 50);
-    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 100);
+    private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 26);  // TODO choose fallback fonts
+    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 60);
+    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 110);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 

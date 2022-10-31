@@ -7,7 +7,7 @@ public class Match {
     private final Team leftTeam;
     private final Team rightTeam;
     private final Date date;
-    private boolean hasEnded;
+    private boolean hasEnded = false;
     private final ArrayList<Player> suspendedPlayers = new ArrayList<>();
 
     public Match(Team leftTeam, Team rightTeam, Date date) {

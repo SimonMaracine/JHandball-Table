@@ -3,7 +3,6 @@ package timer;
 import other.Logging;
 
 import javax.swing.*;
-import java.util.logging.Logger;
 
 public class Timer implements Runnable {
     private static final long ONE_SECOND = 1000;

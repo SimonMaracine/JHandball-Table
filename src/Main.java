@@ -13,16 +13,17 @@ public class Main {
         System.out.println(Arrays.toString(fonts));
 
         // TODO choose fallback fonts
-        Font defaultFont = new Font("Monospaced", Font.PLAIN, 16);
-        Font listFont = new Font("Monospaced", Font.PLAIN, 18);
+        Font defaultFont = new Font("Monospaced", Font.PLAIN, 21);
+        Font listFont = new Font("Monospaced", Font.PLAIN, 21);
+        Font menuFont = new Font("Monospaced", Font.PLAIN, 17);
 
         UIManager.put("Button.font", defaultFont);
         UIManager.put("Label.font", defaultFont);
         UIManager.put("List.font", listFont);
         UIManager.put("TextField.font", defaultFont);
-        UIManager.put("MenuBar.font", defaultFont);
-        UIManager.put("Menu.font", defaultFont);
-        UIManager.put("MenuItem.font", defaultFont);
+        UIManager.put("MenuBar.font", menuFont);
+        UIManager.put("Menu.font", menuFont);
+        UIManager.put("MenuItem.font", menuFont);
 
         Logging.info("Starting GUI...");
 

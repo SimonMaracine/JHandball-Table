@@ -138,14 +138,9 @@ public class Application extends JFrame {
         menItem.addActionListener(actionEvent -> takeRedCardPlayer());
         menPlayer.add(menItem);
 
-<<<<<<< HEAD
-        menHelp.add(new JMenuItem("About"));
-        menItem.addActionListener(actionEvent -> showAboutWindow());
-=======
         menItem = new JMenuItem("About");
         menItem.addActionListener(actionEvent -> about());
         menHelp.add(menItem);
->>>>>>> c721523989fc0f60e9401ceb1a7621e753ea7702
 
         menMenuBar.add(menMatch);
         menMenuBar.add(menPlayer);
@@ -420,52 +415,6 @@ public class Application extends JFrame {
         new InitializeWindow(this);
     }
 
-    private void showAboutWindow() {
-        JFrame frame = new JFrame("About");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        JLabel label;
-        label = new JLabel("This is the first version of the app.", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        label.setPreferredSize(new Dimension(500, 20));
-        frame.add(label, c);
-
-        label = new JLabel("Developers: Simon Maracine and Adrian Demian", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 1;
-        label.setPreferredSize(new Dimension(500, 50));
-        frame.add(label, c);
-
-        label = new JLabel("The application is a simple score table for the game of handball", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 2;
-        label.setPreferredSize(new Dimension(500, 50));
-        frame.add(label, c);
-
-        label = new JLabel("<html><center>Features of the app:<br>" +
-                "<br>Add teams and players" +
-                "<br>View the game timer" +
-                "<br>Modify all game stats" +
-                "<br>Display a public window for the viewers" +
-                "</center></html>", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 40;
-        c.weightx = 0.0;
-        c.gridwidth = 3;
-        c.gridx = 0;
-        c.gridy = 3;
-        label.setPreferredSize(new Dimension(500, 100));
-        frame.add(label, c);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     private void beginMatch() {
         matchTimer = new Timer(lblTimer);
 
@@ -512,7 +461,50 @@ public class Application extends JFrame {
 
     private void about() {
         // FIXME see how to open AboutWindow
-//        AboutWindow.addComponentsToPane();
+
+        JFrame frame = new JFrame("About");
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        JLabel label;
+        label = new JLabel("This is the first version of the app.", SwingConstants.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        label.setPreferredSize(new Dimension(500, 20));
+        frame.add(label, c);
+
+        label = new JLabel("Developers: Simon Maracine and Adrian Demian", SwingConstants.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 1;
+        label.setPreferredSize(new Dimension(500, 50));
+        frame.add(label, c);
+
+        label = new JLabel("The application is a simple score table for the game of handball", SwingConstants.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 2;
+        label.setPreferredSize(new Dimension(500, 50));
+        frame.add(label, c);
+
+        label = new JLabel("<html><center>Features of the app:<br>" +
+                "<br>Add teams and players" +
+                "<br>View the game timer" +
+                "<br>Modify all game stats" +
+                "<br>Display a public window for the viewers" +
+                "</center></html>", SwingConstants.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 40;
+        c.weightx = 0.0;
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = 3;
+        label.setPreferredSize(new Dimension(500, 100));
+        frame.add(label, c);
+        frame.setLocationRelativeTo(null);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private void leftTeamTimeout() {

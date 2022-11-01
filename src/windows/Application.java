@@ -1,8 +1,7 @@
 package windows;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 import handball.Match;
@@ -16,16 +15,13 @@ import static java.awt.GridBagConstraints.CENTER;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 public class Application extends JFrame {
-    enum List {
-        Left, Right
-    }
-
-    private static final int MIN_WIDTH = 1040;
-    private static final int MIN_HEIGHT = 585;
+    private static final int MIN_WIDTH = 1120;
+    private static final int MIN_HEIGHT = 630;
 
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 26);  // TODO choose fallback fonts
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 60);
-    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 110);
+    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 80);
+    private static final Font PLAYER_DATA_FONT = new Font("Monospaced", Font.PLAIN, 24);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
@@ -42,7 +38,11 @@ public class Application extends JFrame {
 
     private final JPanel pnlSuspendedPlayers = new JPanel();
     private final JLabel lblTimer = new JLabel("00:00");
-    private final JLabel lblSelectedPlayer = new JLabel("Selected player: None");
+    private final JLabel lblSelectedPlayerNameNumber = new JLabel("n/a");
+    private final JLabel lblSelectedPlayerScore = new JLabel("n/a");
+    private final JLabel lblSelectedPlayerHasYellowCard = new JLabel("n/a");
+    private final JLabel lblSelectedPlayerHasRedCard = new JLabel("n/a");
+    private final JLabel lblSelectedPlayerIsSuspended = new JLabel("n/a");
 
     private Timer matchTimer = null;
     Match match = null;
@@ -230,6 +230,8 @@ public class Application extends JFrame {
         lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
         lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamScore.setHorizontalAlignment(JLabel.CENTER);
+
+        pnlTeams.setBorder(BorderFactory.createEtchedBorder());
     }
 
     private void setupTimer() {
@@ -294,10 +296,13 @@ public class Application extends JFrame {
 
         lblTimer.setFont(TIMER_FONT);
         lblTimer.setHorizontalAlignment(JLabel.CENTER);
+
+        pnlTimer.setBorder(BorderFactory.createEtchedBorder());
     }
 
     private void setupPlayerOptions() {
         var pnlPlayerOptions = new JPanel(new GridBagLayout());
+        var pnlPlayerData = new JPanel(new GridBagLayout());
         var pnlButtons = new JPanel(new GridBagLayout());
 
         var btnScore = new JButton("Score");
@@ -309,7 +314,30 @@ public class Application extends JFrame {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        pnlPlayerOptions.add(lblSelectedPlayer, constraints);
+        constraints.gridwidth = 2;
+        pnlPlayerData.add(lblSelectedPlayerNameNumber, constraints);
+
+        constraints.gridwidth = 1;
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        pnlPlayerData.add(lblSelectedPlayerScore, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        pnlPlayerData.add(lblSelectedPlayerIsSuspended, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        pnlPlayerData.add(lblSelectedPlayerHasYellowCard, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        pnlPlayerData.add(lblSelectedPlayerHasRedCard, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        pnlPlayerOptions.add(pnlPlayerData, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -364,7 +392,19 @@ public class Application extends JFrame {
         btnYellowCard.addActionListener(actionEvent -> giveYellowCardPlayer());
         btnRedCard.addActionListener(actionEvent -> giveRedCardPlayer());
 
-        lblSelectedPlayer.setHorizontalAlignment(JLabel.CENTER);
+        lblSelectedPlayerNameNumber.setHorizontalAlignment(JLabel.CENTER);
+        lblSelectedPlayerScore.setHorizontalAlignment(JLabel.CENTER);
+        lblSelectedPlayerHasYellowCard.setHorizontalAlignment(JLabel.CENTER);
+        lblSelectedPlayerHasRedCard.setHorizontalAlignment(JLabel.CENTER);
+        lblSelectedPlayerIsSuspended.setHorizontalAlignment(JLabel.CENTER);
+
+        lblSelectedPlayerNameNumber.setFont(PLAYER_DATA_FONT);
+        lblSelectedPlayerScore.setFont(PLAYER_DATA_FONT);
+        lblSelectedPlayerHasYellowCard.setFont(PLAYER_DATA_FONT);
+        lblSelectedPlayerHasRedCard.setFont(PLAYER_DATA_FONT);
+        lblSelectedPlayerIsSuspended.setFont(PLAYER_DATA_FONT);
+
+        pnlPlayerOptions.setBorder(BorderFactory.createEtchedBorder());
     }
 
     private void initializeMatch() {
@@ -426,7 +466,7 @@ public class Application extends JFrame {
     }
 
     private void scoreUpPlayer() {
-    lstRightTeamPlayers.clearSelection();
+
     }
 
     private void suspendPlayer() {
@@ -447,12 +487,14 @@ public class Application extends JFrame {
         }
 
         final int index = lstLeftTeamPlayers.getSelectedIndex();
+
         if (index != -1) {
             selectedPlayer = match.getLeftTeam().getPlayers()[index];
             lstRightTeamPlayers.clearSelection();
 
+            fillSelectedPlayerData();
+
             Logging.info("Selected left player: " + selectedPlayer);
-            Logging.info("Cleared right selection");
         }
     }
 
@@ -462,12 +504,22 @@ public class Application extends JFrame {
         }
 
         final int index = lstRightTeamPlayers.getSelectedIndex();
+
         if (index != -1) {
             selectedPlayer = match.getRightTeam().getPlayers()[index];
             lstLeftTeamPlayers.clearSelection();
 
+            fillSelectedPlayerData();
+
             Logging.info("Selected right player: " + selectedPlayer);
-            Logging.info("Cleared left selection");
         }
+    }
+
+    private void fillSelectedPlayerData() {
+        lblSelectedPlayerNameNumber.setText(selectedPlayer.getName() + "[" + selectedPlayer.getNumber() + "]");
+        lblSelectedPlayerScore.setText("Score: " + selectedPlayer.getScore());
+        lblSelectedPlayerHasYellowCard.setText("Yellow Card: " + (selectedPlayer.hasYellowCard() ?  "true" : "false"));
+        lblSelectedPlayerHasRedCard.setText("Red Card: " + (selectedPlayer.hasRedCard() ?  "true" : "false"));
+        lblSelectedPlayerIsSuspended.setText("Suspended: " + (selectedPlayer.isSuspended() ? "true" : "false"));
     }
 }

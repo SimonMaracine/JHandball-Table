@@ -483,7 +483,10 @@ public class Application extends JFrame {
     }
 
     private void scoreDownPlayer() {
-
+        selectedPlayer.scoreDown();
+        lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
+        lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
+        lblSelectedPlayerScore.setText("Score: " + String.valueOf(selectedPlayer.getScore()));
     }
 
     private void releasePlayer() {
@@ -491,11 +494,13 @@ public class Application extends JFrame {
     }
 
     private void takeYellowCardPlayer() {
-
+        selectedPlayer.takeYellowCard();
+        lblSelectedPlayerHasYellowCard.setText("Yellow card: " + String.valueOf(selectedPlayer.hasYellowCard()));
     }
 
     private void takeRedCardPlayer() {
-
+        selectedPlayer.takeRedCard();
+        lblSelectedPlayerHasRedCard.setText("Red card: " + String.valueOf(selectedPlayer.hasRedCard()));
     }
 
     private void about() {
@@ -515,7 +520,10 @@ public class Application extends JFrame {
     }
 
     private void scoreUpPlayer() {
-
+        selectedPlayer.scoreUp();
+        lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
+        lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
+        lblSelectedPlayerScore.setText("Score: " + String.valueOf(selectedPlayer.getScore()));
     }
 
     private void suspendPlayer() {
@@ -523,11 +531,13 @@ public class Application extends JFrame {
     }
 
     private void giveYellowCardPlayer() {
-
+        selectedPlayer.giveYellowCard();
+        lblSelectedPlayerHasYellowCard.setText("Yellow card: " + String.valueOf(selectedPlayer.hasYellowCard()));
     }
 
     private void giveRedCardPlayer() {
-
+        selectedPlayer.giveRedCard();
+        lblSelectedPlayerHasRedCard.setText("Red card: " + String.valueOf(selectedPlayer.hasRedCard()));
     }
 
     private void leftListSelection() {

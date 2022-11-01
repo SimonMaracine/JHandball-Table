@@ -278,16 +278,22 @@ class InitializeWindow extends JFrame {
     private void showEmptyPopup(String parameter) {
         JFrame jFrame = new JFrame();
         JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
+
+        Logging.warning("Empty input");
     }
 
     private void showDuplicatePopup() {
         JFrame jFrame = new JFrame();
         JOptionPane.showMessageDialog(jFrame, "Duplicate player numbers!");
+
+        Logging.warning("Duplicate input (numbers)");
     }
 
     private void showNumberPopup(int team, int number) {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", player " + number + "!");
+        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", number " + number + "!");
+
+        Logging.warning("Invalid input (numbers)");
     }
 
     private void showNumberBoundPopup(int team, int number) {
@@ -295,6 +301,8 @@ class InitializeWindow extends JFrame {
         JOptionPane.showMessageDialog(
             jFrame, "Only numbers between 1 and 99 are accepted for team " + team + ", number " + number + "!"
         );
+
+        Logging.warning("Invalid input (numbers)");
     }
 
     // TODO temporary; delete this later!

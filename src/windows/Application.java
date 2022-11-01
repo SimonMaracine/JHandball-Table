@@ -10,8 +10,6 @@ import handball.Player;
 import handball.Team;
 import other.Logging;
 import timer.Timer;
-import timer.TimerException;
-import timer.TimerStopCallback;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -49,9 +47,11 @@ public class Application extends JFrame {
 
     private MatchStatus matchStatus = MatchStatus.Half1;
     private final JLabel lblMatchStatus = new JLabel(matchStatus.toString());
+    private MatchStatus previousMatchStatus = matchStatus;  // Used after timeouts
 
     Match match = null;
     private Timer matchTimer = null;
+    private Timer teamTimeoutTimer = null;
     private Player selectedPlayer = null;
 
     public Application() {
@@ -476,17 +476,23 @@ public class Application extends JFrame {
                     return;
                 }
             }
-            default -> {
+            case Penalty -> {
                 showMatchIsPenaltyPopup();
+                return;
+            }
+            case RefereeTimeout -> {
+                matchStatus = previousMatchStatus;
+                lblMatchStatus.setText(matchStatus.toString());
+            }
+            default -> {
+                showNothingToBeginPopup();
                 return;
             }
         }
 
-        try {
-            matchTimer.start();
-        } catch (TimerException ignored) {}
+        matchTimer.start();
 
-        Logging.info("Started match");
+        Logging.info("(Re)Started match");
     }
 
     private void endMatch() {  // TODO implement the rest
@@ -497,9 +503,7 @@ public class Application extends JFrame {
             return;
         }
 
-        try {
-            matchTimer.stop();
-        } catch (TimerException ignored) {}
+        matchTimer.stop();
 
         Logging.info("Ended match");
     }
@@ -542,6 +546,8 @@ public class Application extends JFrame {
 
         matchTimer = null;
         matchStatus = MatchStatus.Half1;
+        previousMatchStatus = matchStatus;
+        lblMatchStatus.setText(matchStatus.toString());
 
         Logging.info("Reset match");
     }
@@ -607,7 +613,20 @@ public class Application extends JFrame {
     }
 
     private void refereeTimeout() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
 
+        if (matchTimer == null || !matchTimer.isRunning()) {
+            Logging.warning("Match is not running");
+            return;
+        }
+
+        matchTimer.stop();
+
+        matchStatus = MatchStatus.RefereeTimeout;
+        lblMatchStatus.setText(matchStatus.toString());
     }
 
     private void scoreUpPlayer() {
@@ -698,6 +717,7 @@ public class Application extends JFrame {
 
         return new Timer(lblTimer, Match.HALF_MATCH_TIME, () -> {
             matchStatus = MatchStatus.Intermission;
+            previousMatchStatus = matchStatus;
             lblMatchStatus.setText(matchStatus.toString());
         });
     }
@@ -707,6 +727,7 @@ public class Application extends JFrame {
 
         return new Timer(lblTimer, Match.INTERMISSION_TIME, () -> {
             matchStatus = MatchStatus.Half2;
+            previousMatchStatus = matchStatus;
             lblMatchStatus.setText(matchStatus.toString());
         });
     }
@@ -716,6 +737,7 @@ public class Application extends JFrame {
 
         return new Timer(lblTimer, Match.HALF_MATCH_TIME, () -> {
             matchStatus = MatchStatus.Overtime1;
+            previousMatchStatus = matchStatus;
             lblMatchStatus.setText(matchStatus.toString());
         });
     }
@@ -725,6 +747,7 @@ public class Application extends JFrame {
 
         return new Timer(lblTimer, Match.OVERTIME_TIME, () -> {
             matchStatus = MatchStatus.Overtime2;
+            previousMatchStatus = matchStatus;
             lblMatchStatus.setText(matchStatus.toString());
         });
     }
@@ -734,6 +757,7 @@ public class Application extends JFrame {
 
         return new Timer(lblTimer, Match.OVERTIME_TIME, () -> {
             matchStatus = MatchStatus.Penalty;
+            previousMatchStatus = matchStatus;
             lblMatchStatus.setText(matchStatus.toString());
         });
     }

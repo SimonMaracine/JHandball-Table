@@ -37,10 +37,8 @@ public class Timer implements Runnable {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    public void start() throws TimerException {  // TODO maybe don't use exceptions (depends on the project's requirements)
-        if (isRunning) {
-            throw new TimerException("Timer already running");
-        }
+    public void start() {
+        assert !isRunning;
 
         isRunning = true;
 
@@ -50,10 +48,8 @@ public class Timer implements Runnable {
         Logging.info("Started timer");
     }
 
-    public void stop() throws TimerException {
-        if (!isRunning) {
-            throw new TimerException("Timer already stopped");
-        }
+    public void stop() {
+        assert isRunning;
 
         isRunning = false;
 
@@ -73,10 +69,8 @@ public class Timer implements Runnable {
                 time++;
 
                 if (time >= timeUntilStop) {
-                    try {
-                        stop();
-                        SwingUtilities.invokeLater(stopCallback::execute);
-                    } catch (TimerException ignored) {}
+                    stop();
+                    SwingUtilities.invokeLater(stopCallback::execute);
                 }
 
                 SwingUtilities.invokeLater(() -> lblTime.setText(getTimeFormatted()));

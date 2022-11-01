@@ -175,6 +175,20 @@ class InitializeWindow extends JFrame {
             showEmptyPopup("Team 1");
             return;
         }
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if(txtLeftTeamPlayerNames[i].getText().equals(txtLeftTeamPlayerNames[j].getText()) && i!=j){
+                    showDuplicatePopup();
+                    return;
+                }
+                if(txtRightTeamPlayerNames[i].getText().equals(txtRightTeamPlayerNames[j].getText()) && i!=j){
+                    showDuplicatePopup();
+                    return;
+                }
+            }
+        }
+
         for (int i = 0; i < 7; i++) {
             if (txtLeftTeamPlayerNames[i].getText().length() == 0) {
                 showEmptyPopup("Team 1, name " + (i + 1));
@@ -256,6 +270,11 @@ class InitializeWindow extends JFrame {
     private void showEmptyPopup(String parameter) {
         JFrame jFrame = new JFrame();
         JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
+    }
+
+    private void showDuplicatePopup() {
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, "Duplicate names!");
     }
 
     private void showNumberPopup(int team, int number) {

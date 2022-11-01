@@ -1,7 +1,6 @@
 package windows;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 import handball.Match;
@@ -65,6 +64,9 @@ public class Application extends JFrame {
 
         lblLeftTeamName.setText(match.getLeftTeam().getName());
         lblRightTeamName.setText(match.getRightTeam().getName());
+
+        leftTeamPlayers.clear();
+        rightTeamPlayers.clear();
 
         for (int i = 0; i < match.getLeftTeam().getPlayers().length; i++) {
             final Player player = match.getLeftTeam().getPlayers()[i];
@@ -424,6 +426,8 @@ public class Application extends JFrame {
     }
 
     private void endMatch() {
+        assert matchTimer != null;
+
         try {
             matchTimer.stop();
         } catch (TimerException ignored) {}
@@ -523,6 +527,8 @@ public class Application extends JFrame {
     }
 
     private void fillSelectedPlayerData() {
+        assert selectedPlayer != null;
+
         lblSelectedPlayerNameNumber.setText(selectedPlayer.getName() + "[" + selectedPlayer.getNumber() + "]");
         lblSelectedPlayerScore.setText("Score: " + selectedPlayer.getScore());
         lblSelectedPlayerHasYellowCard.setText("Yellow Card: " + (selectedPlayer.hasYellowCard() ?  "true" : "false"));

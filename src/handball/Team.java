@@ -1,7 +1,5 @@
 package handball;
 
-import java.util.Arrays;
-
 public class Team {
     private final String name;
     private int totalScore = 0;

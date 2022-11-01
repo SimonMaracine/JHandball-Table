@@ -2,9 +2,11 @@ package windows;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 import handball.Match;
 import handball.Player;
+import handball.Team;
 import other.Logging;
 import timer.Timer;
 import timer.TimerException;
@@ -431,6 +433,7 @@ public class Application extends JFrame {
     }
 
     private void endMatch() {
+        assert match != null;
         assert matchTimer != null;
 
         try {
@@ -441,7 +444,38 @@ public class Application extends JFrame {
     }
 
     private void resetMatch() {
+        if (match == null) {
+            showMatchNotInitializedPopup();
+            return;
+        }
 
+        String leftTeamName;
+        String rightTeamName;
+        String[] leftTeamPlayerNames = new String[7];
+        String[] rightTeamPlayerNames = new String[7];
+        int[] leftTeamPlayerNumbers = new int[7];
+        int[] rightTeamPlayerNumbers = new int[7];
+
+        leftTeamName = match.getLeftTeam().getName();
+        rightTeamName = match.getRightTeam().getName();
+        for (int i = 0; i < 7; i++) {
+            leftTeamPlayerNames[i] = match.getLeftTeam().getPlayers()[i].getName();
+            rightTeamPlayerNames[i] = match.getRightTeam().getPlayers()[i].getName();
+            leftTeamPlayerNumbers[i] = match.getLeftTeam().getPlayers()[i].getNumber();
+            rightTeamPlayerNumbers[i] = match.getRightTeam().getPlayers()[i].getNumber();
+        }
+
+        Team leftTeam = new Team(leftTeamName);
+        Team rightTeam = new Team(rightTeamName);
+
+        for (int i = 0; i < 7; i++) {
+            leftTeam.getPlayers()[i] = new Player(leftTeamPlayerNames[i], leftTeamPlayerNumbers[i], leftTeam);
+            rightTeam.getPlayers()[i] = new Player(rightTeamPlayerNames[i], rightTeamPlayerNumbers[i], rightTeam);
+        }
+
+        match = new Match(leftTeam, rightTeam, new Date());
+
+        Logging.info("Reset match");
     }
 
     private void showPublicWindow() {
@@ -542,5 +576,7 @@ public class Application extends JFrame {
 
     private void showMatchNotInitializedPopup() {
         JOptionPane.showMessageDialog(this, "Match is not initialized", "Match", JOptionPane.ERROR_MESSAGE);
+
+        Logging.warning("Match is not initialized");
     }
 }

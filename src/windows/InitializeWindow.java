@@ -178,11 +178,11 @@ class InitializeWindow extends JFrame {
 
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                if(txtLeftTeamPlayerNames[i].getText().equals(txtLeftTeamPlayerNames[j].getText()) && i!=j){
+                if(i!=j && txtLeftTeamPlayerNumbers[i].getText().equals(txtLeftTeamPlayerNumbers[j].getText())){
                     showDuplicatePopup();
                     return;
                 }
-                if(txtRightTeamPlayerNames[i].getText().equals(txtRightTeamPlayerNames[j].getText()) && i!=j){
+                if(i!=j && txtRightTeamPlayerNumbers[i].getText().equals(txtRightTeamPlayerNumbers[j].getText())){
                     showDuplicatePopup();
                     return;
                 }
@@ -274,12 +274,12 @@ class InitializeWindow extends JFrame {
 
     private void showDuplicatePopup() {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Duplicate names!");
+        JOptionPane.showMessageDialog(jFrame, "Duplicate number!");
     }
 
     private void showNumberPopup(int team, int number) {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", number " + number + "!");
+        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", player " + number + "!");
     }
 
     private void showNumberBoundPopup(int team, int number) {

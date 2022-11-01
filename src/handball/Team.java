@@ -1,6 +1,7 @@
 package handball;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Team {
     private final String name;
@@ -55,5 +56,15 @@ public class Team {
 
     public Player[] getPlayers() {
         return players;
+    }
+
+    @Override
+    public String toString() {
+        return "Team name='" + name + '\'' +
+                ", total points scored=" + totalScore +
+                ", number of timeout calls=" + numberOfTimeoutCalls +
+                ", number of yellow cards=" + numberOfYellowCards +
+                ", players=" + Arrays.toString(players) +
+                '}';
     }
 }

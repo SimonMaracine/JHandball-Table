@@ -89,4 +89,17 @@ public class Player {
     public void takeRedCard() {
         this.hasRedCard = false;
     }
+
+    @Override
+    public String toString() {
+        return "Player name='" + name + '\'' +
+                ", number=" + number +
+                ", score=" + score +
+                ", has yellow card?=" + hasYellowCard +
+                ", is suspended?=" + isSuspended +
+                ", number of suspensions=" + numberOfSuspensions +
+                ", has red card?=" + hasRedCard +
+                ", team=" + team +
+                '}';
+    }
 }

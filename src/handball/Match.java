@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Match {
+    public static final int HALF_MATCH_TIME = 30;// * 3600;  // FIXME make these right!!!
+    public static final int INTERMISSION_TIME = 10;// * 3600;
+    public static final int OVERTIME_TIME = 5;// * 3600;
+
     private final Team leftTeam;
     private final Team rightTeam;
     private final Date date;

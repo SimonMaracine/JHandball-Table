@@ -5,11 +5,13 @@ import java.awt.*;
 import java.util.Date;
 
 import handball.Match;
+import handball.MatchStatus;
 import handball.Player;
 import handball.Team;
 import other.Logging;
 import timer.Timer;
 import timer.TimerException;
+import timer.TimerStopCallback;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -45,8 +47,11 @@ public class Application extends JFrame {
     private final JLabel lblSelectedPlayerHasRedCard = new JLabel("n/a");
     private final JLabel lblSelectedPlayerIsSuspended = new JLabel("n/a");
 
-    private Timer matchTimer = null;
+    private MatchStatus matchStatus = MatchStatus.Half1;
+    private final JLabel lblMatchStatus = new JLabel(matchStatus.toString());
+
     Match match = null;
+    private Timer matchTimer = null;
     private Player selectedPlayer = null;
 
     public Application() {
@@ -254,9 +259,16 @@ public class Application extends JFrame {
         constraints.gridy = 0;
         pnlTimer.add(lblTimer, constraints);
 
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        pnlTimer.add(lblMatchStatus, constraints);
+
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.gridwidth = 2;
         pnlTimer.add(pnlButtons, constraints);
+
+        constraints.gridwidth = 1;
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -423,7 +435,52 @@ public class Application extends JFrame {
             return;
         }
 
-        matchTimer = new Timer(lblTimer);
+        switch (matchStatus) {
+            case Half1 -> {
+                if (matchTimer == null || !matchTimer.isRunning()) {
+                    matchTimer = createHalf1Timer();
+                } else {
+                    showNothingToBeginPopup();
+                    return;
+                }
+            }
+            case Intermission -> {
+                if (!matchTimer.isRunning()) {
+                    matchTimer = createIntermissionTimer();
+                } else {
+                    showNothingToBeginPopup();
+                    return;
+                }
+            }
+            case Half2 -> {
+                if (!matchTimer.isRunning()) {
+                    matchTimer = createHalf2Timer();
+                } else {
+                    showNothingToBeginPopup();
+                    return;
+                }
+            }
+            case Overtime1 -> {
+                if (!matchTimer.isRunning()) {
+                    matchTimer = createOvertime1Timer();
+                } else {
+                    showNothingToBeginPopup();
+                    return;
+                }
+            }
+            case Overtime2 -> {
+                if (!matchTimer.isRunning()) {
+                    matchTimer = createOvertime2Timer();
+                } else {
+                    showNothingToBeginPopup();
+                    return;
+                }
+            }
+            default -> {
+                showMatchIsPenaltyPopup();
+                return;
+            }
+        }
 
         try {
             matchTimer.start();
@@ -432,9 +489,13 @@ public class Application extends JFrame {
         Logging.info("Started match");
     }
 
-    private void endMatch() {
+    private void endMatch() {  // TODO implement the rest
         assert match != null;
         assert matchTimer != null;
+
+        if (!showConfirmEndPopup()) {
+            return;
+        }
 
         try {
             matchTimer.stop();
@@ -446,6 +507,10 @@ public class Application extends JFrame {
     private void resetMatch() {
         if (match == null) {
             showMatchNotInitializedPopup();
+            return;
+        }
+
+        if (!showConfirmResetPopup()) {
             return;
         }
 
@@ -474,6 +539,9 @@ public class Application extends JFrame {
         }
 
         match = new Match(leftTeam, rightTeam, new Date());
+
+        matchTimer = null;
+        matchStatus = MatchStatus.Half1;
 
         Logging.info("Reset match");
     }
@@ -574,9 +642,100 @@ public class Application extends JFrame {
         lblSelectedPlayerIsSuspended.setText("Suspended: " + (selectedPlayer.isSuspended() ? "true" : "false"));
     }
 
+    private Timer createHalf1Timer() {
+        Logging.info("Creating Half1 timer...");
+
+        return new Timer(lblTimer, Match.HALF_MATCH_TIME, () -> {
+            matchStatus = MatchStatus.Intermission;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
+    private Timer createIntermissionTimer() {
+        Logging.info("Creating Intermission timer...");
+
+        return new Timer(lblTimer, Match.INTERMISSION_TIME, () -> {
+            matchStatus = MatchStatus.Half2;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
+    private Timer createHalf2Timer() {
+        Logging.info("Creating Half2 timer...");
+
+        return new Timer(lblTimer, Match.HALF_MATCH_TIME, () -> {
+            matchStatus = MatchStatus.Overtime1;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
+    private Timer createOvertime1Timer() {
+        Logging.info("Creating Overtime1 timer...");
+
+        return new Timer(lblTimer, Match.OVERTIME_TIME, () -> {
+            matchStatus = MatchStatus.Overtime2;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
+    private Timer createOvertime2Timer() {
+        Logging.info("Creating Overtime2 timer...");
+
+        return new Timer(lblTimer, Match.OVERTIME_TIME, () -> {
+            matchStatus = MatchStatus.Penalty;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
     private void showMatchNotInitializedPopup() {
-        JOptionPane.showMessageDialog(this, "Match is not initialized", "Match", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Match is not initialized.", "Match", JOptionPane.ERROR_MESSAGE);
 
         Logging.warning("Match is not initialized");
+    }
+
+    private void showNothingToBeginPopup() {
+        JOptionPane.showMessageDialog(this, "There is nothing to begin.", "Match", JOptionPane.ERROR_MESSAGE);
+
+        Logging.warning("There is nothing to begin");
+    }
+
+    private void showMatchIsPenaltyPopup() {
+        JOptionPane.showMessageDialog(this, "Match is in penalty now. There is nothing to begin.", "Match", JOptionPane.ERROR_MESSAGE);
+
+        Logging.warning("Match is in penalty now");
+    }
+
+    private boolean showConfirmEndPopup() {
+        int result = JOptionPane.showConfirmDialog(
+            this, "Are you sure you want to end the match?", "End", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (result == 0) {
+            Logging.info("Chose yes");
+            return true;
+        } else if (result == 1) {
+            Logging.info("Chose no");
+            return false;
+        }
+
+        Logging.severe("Result not handled");
+        return false;
+    }
+
+    private boolean showConfirmResetPopup() {
+        int result = JOptionPane.showConfirmDialog(
+            this, "Are you sure you want to reset the match?", "Reset", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (result == 0) {
+            Logging.info("Chose yes");
+            return true;
+        } else if (result == 1) {
+            Logging.info("Chose no");
+            return false;
+        }
+
+        Logging.severe("Result not handled");
+        return false;
     }
 }

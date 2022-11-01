@@ -11,11 +11,15 @@ public class Timer implements Runnable {
     private int time = 0;  // In seconds
     private boolean isRunning = false;
     private Thread thread;
+    private final int timeUntilStop;
+    private final TimerStopCallback stopCallback;
 
     private final JLabel lblTime;
 
-    public Timer(JLabel lblTime) {
+    public Timer(JLabel lblTime, int timeUntilStop, TimerStopCallback stopCallback) {
         this.lblTime = lblTime;
+        this.timeUntilStop = Math.min(timeUntilStop, MAX_TIME);
+        this.stopCallback = stopCallback;
     }
 
     public int getTime() {
@@ -68,9 +72,10 @@ public class Timer implements Runnable {
 
                 time++;
 
-                if (time > MAX_TIME) {
+                if (time >= timeUntilStop) {
                     try {
                         stop();
+                        SwingUtilities.invokeLater(stopCallback::execute);
                     } catch (TimerException ignored) {}
                 }
 

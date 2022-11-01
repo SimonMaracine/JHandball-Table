@@ -3,8 +3,13 @@ package handball;
 import timer.Timer;
 
 public class SuspendedPlayer {
-    Timer timer;
-    Player player;
+    private final Timer timer;
+    private final Player player;
+
+    public SuspendedPlayer(Timer timer, Player player) {
+        this.timer = timer;
+        this.player = player;
+    }
 
     public Timer getTimer() {
         return timer;
@@ -12,10 +17,5 @@ public class SuspendedPlayer {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public SuspendedPlayer(Timer timer, Player player) {
-        this.timer = timer;
-        this.player = player;
     }
 }

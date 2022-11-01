@@ -1,6 +1,5 @@
 package handball;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Team {
@@ -64,7 +63,7 @@ public class Team {
                 ", total points scored=" + totalScore +
                 ", number of timeout calls=" + numberOfTimeoutCalls +
                 ", number of yellow cards=" + numberOfYellowCards +
-                ", players=" + Arrays.toString(players) +
+                ", players=" + players.length +
                 '}';
     }
 }

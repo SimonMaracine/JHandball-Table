@@ -13,8 +13,8 @@ import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
 class InitializeWindow extends JFrame {
-    private static final int MIN_WIDTH = 1024;
-    private static final int MIN_HEIGHT = 576;
+    private static final int MIN_WIDTH = 1040;
+    private static final int MIN_HEIGHT = 585;
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
@@ -169,23 +169,6 @@ class InitializeWindow extends JFrame {
         pack();
     }
 
-    private void showEmptyPopup(String parameter) {
-        JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
-    }
-
-    private void showNumberPopup(int team, int number) {
-        JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", number " + number + "!");
-    }
-
-    private void showNumberBoundPopup(int team, int number) {
-        JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(
-            jFrame, "Only numbers between 1 and 99 are accepted for team " + team + ", number " + number + "!"
-        );
-    }
-
     private void apply() {
         // Check input first
         if (txtLeftTeamName.getText().length() == 0) {
@@ -268,6 +251,23 @@ class InitializeWindow extends JFrame {
         dispose();
 
         Logging.info("Cancelled initialize window");
+    }
+
+    private void showEmptyPopup(String parameter) {
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
+    }
+
+    private void showNumberPopup(int team, int number) {
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, "Only digits are accepted for team " + team + ", number " + number + "!");
+    }
+
+    private void showNumberBoundPopup(int team, int number) {
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(
+            jFrame, "Only numbers between 1 and 99 are accepted for team " + team + ", number " + number + "!"
+        );
     }
 
     // TODO temporary; delete this later!

@@ -551,10 +551,21 @@ public class Application extends JFrame {
     }
 
     private void scoreDownPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
+        if (selectedPlayer.getScore() == 0) {
+            Logging.warning("Cannot score down player with score 0");
+            return;
+        }
+
         selectedPlayer.scoreDown();
+
         lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
         lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
-        lblSelectedPlayerScore.setText("Score: " + String.valueOf(selectedPlayer.getScore()));
+        fillSelectedPlayerData();
     }
 
     private void releasePlayer() {
@@ -562,13 +573,25 @@ public class Application extends JFrame {
     }
 
     private void takeYellowCardPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
         selectedPlayer.takeYellowCard();
-        lblSelectedPlayerHasYellowCard.setText("Yellow card: " + String.valueOf(selectedPlayer.hasYellowCard()));
+
+        fillSelectedPlayerData();
     }
 
     private void takeRedCardPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
         selectedPlayer.takeRedCard();
-        lblSelectedPlayerHasRedCard.setText("Red card: " + String.valueOf(selectedPlayer.hasRedCard()));
+
+        fillSelectedPlayerData();
     }
 
     private void about() {
@@ -588,10 +611,16 @@ public class Application extends JFrame {
     }
 
     private void scoreUpPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
         selectedPlayer.scoreUp();
+
         lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
         lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
-        lblSelectedPlayerScore.setText("Score: " + String.valueOf(selectedPlayer.getScore()));
+        fillSelectedPlayerData();
     }
 
     private void suspendPlayer() {
@@ -599,13 +628,25 @@ public class Application extends JFrame {
     }
 
     private void giveYellowCardPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
         selectedPlayer.giveYellowCard();
-        lblSelectedPlayerHasYellowCard.setText("Yellow card: " + String.valueOf(selectedPlayer.hasYellowCard()));
+
+        fillSelectedPlayerData();
     }
 
     private void giveRedCardPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
+
         selectedPlayer.giveRedCard();
-        lblSelectedPlayerHasRedCard.setText("Red card: " + String.valueOf(selectedPlayer.hasRedCard()));
+
+        fillSelectedPlayerData();
     }
 
     private void leftListSelection() {

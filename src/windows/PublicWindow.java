@@ -4,7 +4,6 @@ import other.Logging;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -44,10 +43,10 @@ class PublicWindow extends JFrame {
 
         Logging.info("Created public window");
 
-            lblLeftTeamName.setText(application.match.getLeftTeam().getName());
-            lblRightTeamName.setText(application.match.getRightTeam().getName());
-            lblLeftTeamScore.setText(String.valueOf(application.match.getLeftTeam().getTotalScore()));
-            lblRightTeamScore.setText(String.valueOf(application.match.getRightTeam().getTotalScore()));
+        lblLeftTeamName.setText(application.match.getLeftTeam().getName());  // FIXME these
+        lblRightTeamName.setText(application.match.getRightTeam().getName());
+        lblLeftTeamScore.setText(String.valueOf(application.match.getLeftTeam().getTotalScore()));
+        lblRightTeamScore.setText(String.valueOf(application.match.getRightTeam().getTotalScore()));
     }
 
     private void setupLayout() {

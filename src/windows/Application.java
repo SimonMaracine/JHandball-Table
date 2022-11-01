@@ -460,11 +460,7 @@ public class Application extends JFrame {
     }
 
     private void about() {
-<<<<<<< HEAD
-=======
-        // FIXME see how to open AboutWindow
 
->>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         JFrame frame = new JFrame("About");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLayout(new GridBagLayout());

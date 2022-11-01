@@ -15,31 +15,31 @@ public enum MatchStatus {
     public String toString() {
         switch (this) {
             case Half1 -> {
-                return "Half 1";
+                return "Half One";
             }
             case Intermission -> {
                 return "Intermission";
             }
             case Half2 -> {
-                return "Half 2";
+                return "Half Two";
             }
             case Overtime1 -> {
-                return "Overtime 1";
+                return "Overtime One";
             }
             case Overtime2 -> {
-                return "Overtime 2";
+                return "Overtime Two";
             }
             case Penalty -> {
                 return "Penalty";
             }
             case RefereeTimeout -> {
-                return "RefereeTimeout";
+                return "Referee Timeout";
             }
             case LeftTeamTimeout -> {
-                return "LeftTeamTimeout";
+                return "Left Team Timeout";
             }
             case RightTeamTimeout -> {
-                return "RightTeamTimeout";
+                return "Right Team Timeout";
             }
             default -> {
                 return null;

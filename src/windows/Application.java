@@ -503,7 +503,7 @@ public class Application extends JFrame {
             return;
         }
 
-        matchTimer.stop();
+        matchTimer.stop();  // TODO check
 
         Logging.info("Ended match");
     }
@@ -604,8 +604,37 @@ public class Application extends JFrame {
         new AboutWindow();
     }
 
-    private void leftTeamTimeout() {
+    private void leftTeamTimeout() {  // TODO test
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
 
+        if (matchTimer == null || !matchTimer.isRunning()) {
+            Logging.warning("Match is not running");
+            return;
+        }
+
+        if (matchStatus != MatchStatus.Half1 && matchStatus != MatchStatus.Half2
+                && matchStatus != MatchStatus.Overtime1 && matchStatus != MatchStatus.Overtime2) {
+            Logging.warning("Match is not running");
+            return;
+        }
+
+        if (match.getLeftTeam().getNumberOfTimeoutCalls() == 3) {
+            showTeamTimeoutCallsPopup();
+            return;
+        }
+
+        matchTimer.stop();
+
+        teamTimeoutTimer = createTeamTimeoutTimer();
+        teamTimeoutTimer.start();
+
+        matchStatus = MatchStatus.LeftTeamTimeout;
+        lblMatchStatus.setText(matchStatus.toString());
+
+        match.getLeftTeam().addToNumberOfTimeoutCalls();
     }
 
     private void rightTeamTimeout() {
@@ -762,6 +791,15 @@ public class Application extends JFrame {
         });
     }
 
+    private Timer createTeamTimeoutTimer() {
+        Logging.info("Creating timeout timer...");
+
+        return new Timer(lblTimer, Team.TIMEOUT_TIME, () -> {
+            matchStatus = previousMatchStatus;
+            lblMatchStatus.setText(matchStatus.toString());
+        });
+    }
+
     private void showMatchNotInitializedPopup() {
         JOptionPane.showMessageDialog(this, "Match is not initialized.", "Match", JOptionPane.ERROR_MESSAGE);
 
@@ -778,6 +816,12 @@ public class Application extends JFrame {
         JOptionPane.showMessageDialog(this, "Match is in penalty now. There is nothing to begin.", "Match", JOptionPane.ERROR_MESSAGE);
 
         Logging.warning("Match is in penalty now");
+    }
+
+    private void showTeamTimeoutCallsPopup() {
+        JOptionPane.showMessageDialog(this, "Team has already called timeout three times.", "Team Timeout", JOptionPane.ERROR_MESSAGE);
+
+        Logging.warning("Team has already called timeout three times");
     }
 
     private boolean showConfirmEndPopup() {

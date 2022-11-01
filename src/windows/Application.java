@@ -416,6 +416,11 @@ public class Application extends JFrame {
     }
 
     private void beginMatch() {
+        if (match == null) {
+            showMatchNotInitializedPopup();
+            return;
+        }
+
         matchTimer = new Timer(lblTimer);
 
         try {
@@ -533,5 +538,9 @@ public class Application extends JFrame {
         lblSelectedPlayerHasYellowCard.setText("Yellow Card: " + (selectedPlayer.hasYellowCard() ?  "true" : "false"));
         lblSelectedPlayerHasRedCard.setText("Red Card: " + (selectedPlayer.hasRedCard() ?  "true" : "false"));
         lblSelectedPlayerIsSuspended.setText("Suspended: " + (selectedPlayer.isSuspended() ? "true" : "false"));
+    }
+
+    private void showMatchNotInitializedPopup() {
+        JOptionPane.showMessageDialog(this, "Match is not initialized", "Match", JOptionPane.ERROR_MESSAGE);
     }
 }

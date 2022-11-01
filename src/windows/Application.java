@@ -470,21 +470,21 @@ public class Application extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
-        label.setPreferredSize(new Dimension(500, 20));
+        label.setPreferredSize(new Dimension(1000, 50));
         frame.add(label, c);
 
         label = new JLabel("Developers: Simon Maracine and Adrian Demian", SwingConstants.CENTER);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        label.setPreferredSize(new Dimension(500, 50));
+        label.setPreferredSize(new Dimension(1000, 50));
         frame.add(label, c);
 
         label = new JLabel("The application is a simple score table for the game of handball", SwingConstants.CENTER);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
-        label.setPreferredSize(new Dimension(500, 50));
+        label.setPreferredSize(new Dimension(1200, 50));
         frame.add(label, c);
 
         label = new JLabel("<html><center>Features of the app:<br>" +
@@ -499,7 +499,7 @@ public class Application extends JFrame {
         c.gridwidth = 3;
         c.gridx = 0;
         c.gridy = 3;
-        label.setPreferredSize(new Dimension(500, 100));
+        label.setPreferredSize(new Dimension(1000, 200));
         frame.add(label, c);
         frame.setLocationRelativeTo(null);
         frame.pack();

@@ -1,7 +1,6 @@
 package windows;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 import handball.Match;
@@ -65,6 +64,9 @@ public class Application extends JFrame {
 
         lblLeftTeamName.setText(match.getLeftTeam().getName());
         lblRightTeamName.setText(match.getRightTeam().getName());
+
+        leftTeamPlayers.clear();
+        rightTeamPlayers.clear();
 
         for (int i = 0; i < match.getLeftTeam().getPlayers().length; i++) {
             final Player player = match.getLeftTeam().getPlayers()[i];
@@ -136,7 +138,10 @@ public class Application extends JFrame {
         menItem.addActionListener(actionEvent -> takeRedCardPlayer());
         menPlayer.add(menItem);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         menItem = new JMenuItem("About");
         menItem.addActionListener(actionEvent -> about());
         menHelp.add(menItem);
@@ -425,6 +430,11 @@ public class Application extends JFrame {
     }
 
     private void endMatch() {
+<<<<<<< HEAD
+=======
+        assert matchTimer != null;
+
+>>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         try {
             matchTimer.stop();
         } catch (TimerException ignored) {}
@@ -457,6 +467,11 @@ public class Application extends JFrame {
     }
 
     private void about() {
+<<<<<<< HEAD
+=======
+        // FIXME see how to open AboutWindow
+
+>>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         JFrame frame = new JFrame("About");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
@@ -565,6 +580,8 @@ public class Application extends JFrame {
     }
 
     private void fillSelectedPlayerData() {
+        assert selectedPlayer != null;
+
         lblSelectedPlayerNameNumber.setText(selectedPlayer.getName() + "[" + selectedPlayer.getNumber() + "]");
         lblSelectedPlayerScore.setText("Score: " + selectedPlayer.getScore());
         lblSelectedPlayerHasYellowCard.setText("Yellow Card: " + (selectedPlayer.hasYellowCard() ?  "true" : "false"));

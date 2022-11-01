@@ -39,6 +39,7 @@ class InitializeWindow extends JFrame {
 
         setupLayout();
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
 

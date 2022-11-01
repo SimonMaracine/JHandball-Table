@@ -19,7 +19,7 @@ class AboutWindow extends JFrame {
         label.setPreferredSize(new Dimension(1000, 50));
         add(label, c);
 
-        label = new JLabel("Developers: Simon Maracine and Adrian Demian", SwingConstants.CENTER);
+        label = new JLabel("Developers: Simon Mărăcine and Adrian Demian", SwingConstants.CENTER);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;

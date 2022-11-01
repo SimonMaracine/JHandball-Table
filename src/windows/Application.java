@@ -138,10 +138,6 @@ public class Application extends JFrame {
         menItem.addActionListener(actionEvent -> takeRedCardPlayer());
         menPlayer.add(menItem);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         menItem = new JMenuItem("About");
         menItem.addActionListener(actionEvent -> about());
         menHelp.add(menItem);
@@ -430,11 +426,8 @@ public class Application extends JFrame {
     }
 
     private void endMatch() {
-<<<<<<< HEAD
-=======
         assert matchTimer != null;
 
->>>>>>> 5250027af6770d880cffb67f83265e83627ef0a3
         try {
             matchTimer.stop();
         } catch (TimerException ignored) {}

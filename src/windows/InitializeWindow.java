@@ -13,8 +13,8 @@ import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
 class InitializeWindow extends JFrame {
-    private static final int MIN_WIDTH = 1040;
-    private static final int MIN_HEIGHT = 585;
+    private static final int MIN_WIDTH = 1120;
+    private static final int MIN_HEIGHT = 630;
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 

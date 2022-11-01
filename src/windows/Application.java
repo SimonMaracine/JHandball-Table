@@ -1,6 +1,8 @@
 package windows;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 import handball.Match;
@@ -14,8 +16,12 @@ import static java.awt.GridBagConstraints.CENTER;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 public class Application extends JFrame {
-    private static final int MIN_WIDTH = 1024;
-    private static final int MIN_HEIGHT = 576;
+    enum List {
+        Left, Right
+    }
+
+    private static final int MIN_WIDTH = 1040;
+    private static final int MIN_HEIGHT = 585;
 
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 26);  // TODO choose fallback fonts
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 60);
@@ -217,6 +223,8 @@ public class Application extends JFrame {
 
         lstLeftTeamPlayers.setSelectionMode(SINGLE_SELECTION);
         lstRightTeamPlayers.setSelectionMode(SINGLE_SELECTION);
+        lstLeftTeamPlayers.addListSelectionListener(listSelectionEvent -> leftListSelection());
+        lstRightTeamPlayers.addListSelectionListener(listSelectionEvent -> rightListSelection());
 
         lblLeftTeamName.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
@@ -418,7 +426,7 @@ public class Application extends JFrame {
     }
 
     private void scoreUpPlayer() {
-
+    lstRightTeamPlayers.clearSelection();
     }
 
     private void suspendPlayer() {
@@ -431,5 +439,35 @@ public class Application extends JFrame {
 
     private void giveRedCardPlayer() {
 
+    }
+
+    private void leftListSelection() {
+        if (lstLeftTeamPlayers.getValueIsAdjusting()) {
+            return;
+        }
+
+        final int index = lstLeftTeamPlayers.getSelectedIndex();
+        if (index != -1) {
+            selectedPlayer = match.getLeftTeam().getPlayers()[index];
+            lstRightTeamPlayers.clearSelection();
+
+            Logging.info("Selected left player: " + selectedPlayer);
+            Logging.info("Cleared right selection");
+        }
+    }
+
+    private void rightListSelection() {
+        if (lstRightTeamPlayers.getValueIsAdjusting()) {
+            return;
+        }
+
+        final int index = lstRightTeamPlayers.getSelectedIndex();
+        if (index != -1) {
+            selectedPlayer = match.getRightTeam().getPlayers()[index];
+            lstLeftTeamPlayers.clearSelection();
+
+            Logging.info("Selected right player: " + selectedPlayer);
+            Logging.info("Cleared left selection");
+        }
     }
 }

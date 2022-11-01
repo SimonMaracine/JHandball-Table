@@ -13,7 +13,7 @@ public class Main {
         System.out.println(Arrays.toString(fonts));
 
         // TODO choose fallback fonts
-        Font defaultFont = new Font("Monospaced", Font.PLAIN, 24);
+        Font defaultFont = new Font("Monospaced", Font.PLAIN, 26);
         Font listFont = new Font("Monospaced", Font.PLAIN, 22);
         Font menuFont = new Font("Monospaced", Font.PLAIN, 17);
 

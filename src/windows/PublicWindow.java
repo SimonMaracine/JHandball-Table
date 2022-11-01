@@ -9,8 +9,8 @@ import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 
 class PublicWindow extends JFrame {
-    private static final int MIN_WIDTH = 1024;
-    private static final int MIN_HEIGHT = 576;
+    private static final int MIN_WIDTH = 1040;
+    private static final int MIN_HEIGHT = 585;
 
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 40);  // TODO choose fallback fonts
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 80);

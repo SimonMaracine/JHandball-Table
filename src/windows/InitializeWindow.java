@@ -172,68 +172,8 @@ class InitializeWindow extends JFrame {
 
     private void apply() {
         // Check input first
-        if (txtLeftTeamName.getText().length() == 0) {
-            showEmptyPopup("Team 1");
+        if (!checkInput()) {
             return;
-        }
-
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
-                if(i!=j && txtLeftTeamPlayerNumbers[i].getText().equals(txtLeftTeamPlayerNumbers[j].getText())){
-                    showDuplicatePopup();
-                    return;
-                }
-                if(i!=j && txtRightTeamPlayerNumbers[i].getText().equals(txtRightTeamPlayerNumbers[j].getText())){
-                    showDuplicatePopup();
-                    return;
-                }
-            }
-        }
-
-        for (int i = 0; i < 7; i++) {
-            if (txtLeftTeamPlayerNames[i].getText().length() == 0) {
-                showEmptyPopup("Team 1, name " + (i + 1));
-                return;
-            }
-            if (txtLeftTeamPlayerNumbers[i].getText().length() == 0) {
-                showEmptyPopup("Team 1, number " + (i + 1));
-                return;
-            }
-            if (!txtLeftTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
-                showNumberPopup(1, i + 1);
-                return;
-            }
-
-            final int playerNumber = Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText());
-            if (playerNumber < 1 || playerNumber > 99) {
-                showNumberBoundPopup(1, i + 1);
-                return;
-            }
-        }
-
-        if (txtRightTeamName.getText().length() == 0) {
-            showEmptyPopup("Team 2");
-            return;
-        }
-        for (int i = 0; i < 7; i++) {
-            if (txtRightTeamPlayerNames[i].getText().length() == 0) {
-                showEmptyPopup("Team 2, name " + (i + 1));
-                return;
-            }
-            if (txtRightTeamPlayerNumbers[i].getText().length() == 0) {
-                showEmptyPopup("Team 2, number " + (i + 1));
-                return;
-            }
-            if (!txtRightTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
-                showNumberPopup(2, i + 1);
-                return;
-            }
-
-            final int playerNumber = Integer.parseInt(txtRightTeamPlayerNumbers[i].getText());
-            if (playerNumber < 1 || playerNumber > 99) {
-                showNumberBoundPopup(2, i + 1);
-                return;
-            }
         }
 
         // Create objects
@@ -268,6 +208,73 @@ class InitializeWindow extends JFrame {
         Logging.info("Cancelled initialize window");
     }
 
+    private boolean checkInput() {
+        if (txtLeftTeamName.getText().length() == 0) {
+            showEmptyPopup("Team 1");
+            return false;
+        }
+        for (int i = 0; i < 7; i++) {
+            if (txtLeftTeamPlayerNames[i].getText().length() == 0) {
+                showEmptyPopup("Team 1, name " + (i + 1));
+                return false;
+            }
+            if (txtLeftTeamPlayerNumbers[i].getText().length() == 0) {
+                showEmptyPopup("Team 1, number " + (i + 1));
+                return false;
+            }
+            if (!txtLeftTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
+                showNumberPopup(1, i + 1);
+                return false;
+            }
+
+            final int playerNumber = Integer.parseInt(txtLeftTeamPlayerNumbers[i].getText());
+            if (playerNumber < 1 || playerNumber > 99) {
+                showNumberBoundPopup(1, i + 1);
+                return false;
+            }
+        }
+
+        if (txtRightTeamName.getText().length() == 0) {
+            showEmptyPopup("Team 2");
+            return false;
+        }
+        for (int i = 0; i < 7; i++) {
+            if (txtRightTeamPlayerNames[i].getText().length() == 0) {
+                showEmptyPopup("Team 2, name " + (i + 1));
+                return false;
+            }
+            if (txtRightTeamPlayerNumbers[i].getText().length() == 0) {
+                showEmptyPopup("Team 2, number " + (i + 1));
+                return false;
+            }
+            if (!txtRightTeamPlayerNumbers[i].getText().matches("[0-9]+")) {
+                showNumberPopup(2, i + 1);
+                return false;
+            }
+
+            final int playerNumber = Integer.parseInt(txtRightTeamPlayerNumbers[i].getText());
+            if (playerNumber < 1 || playerNumber > 99) {
+                showNumberBoundPopup(2, i + 1);
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (i != j && txtLeftTeamPlayerNumbers[i].getText().equals(txtLeftTeamPlayerNumbers[j].getText())) {
+                    showDuplicatePopup();
+                    return false;
+                }
+                if (i != j && txtRightTeamPlayerNumbers[i].getText().equals(txtRightTeamPlayerNumbers[j].getText())) {
+                    showDuplicatePopup();
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     private void showEmptyPopup(String parameter) {
         JFrame jFrame = new JFrame();
         JOptionPane.showMessageDialog(jFrame, parameter + " cannot be empty!");
@@ -275,7 +282,7 @@ class InitializeWindow extends JFrame {
 
     private void showDuplicatePopup() {
         JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, "Duplicate number!");
+        JOptionPane.showMessageDialog(jFrame, "Duplicate player numbers!");
     }
 
     private void showNumberPopup(int team, int number) {

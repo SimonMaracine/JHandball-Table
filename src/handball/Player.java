@@ -99,7 +99,7 @@ public class Player {
                 ", is suspended?=" + isSuspended +
                 ", number of suspensions=" + numberOfSuspensions +
                 ", has red card?=" + hasRedCard +
-                ", team=" + team +
+                ", team=" + team.getName() +
                 '}';
     }
 }

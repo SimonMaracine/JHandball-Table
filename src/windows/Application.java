@@ -136,8 +136,14 @@ public class Application extends JFrame {
         menItem.addActionListener(actionEvent -> takeRedCardPlayer());
         menPlayer.add(menItem);
 
+<<<<<<< HEAD
         menHelp.add(new JMenuItem("About"));
         menItem.addActionListener(actionEvent -> showAboutWindow());
+=======
+        menItem = new JMenuItem("About");
+        menItem.addActionListener(actionEvent -> about());
+        menHelp.add(menItem);
+>>>>>>> c721523989fc0f60e9401ceb1a7621e753ea7702
 
         menMenuBar.add(menMatch);
         menMenuBar.add(menPlayer);
@@ -498,6 +504,11 @@ public class Application extends JFrame {
 
     private void takeRedCardPlayer() {
 
+    }
+
+    private void about() {
+        // FIXME see how to open AboutWindow
+//        AboutWindow.addComponentsToPane();
     }
 
     private void leftTeamTimeout() {

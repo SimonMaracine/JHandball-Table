@@ -1,5 +1,6 @@
 package windows;
 
+import handball.Player;
 import other.Logging;
 
 import javax.swing.*;
@@ -18,15 +19,18 @@ class PublicWindow extends JFrame {
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
-    private final JLabel lblLeftTeamName = new JLabel("Team 1");  // FIXME make a way to easily mirror main window's labels
-    private final JLabel lblRightTeamName = new JLabel("Team 2");
-    private final JLabel lblLeftTeamScore = new JLabel("0");
-    private final JLabel lblRightTeamScore = new JLabel("0");
-    private final JLabel lblTimer = new JLabel("00:00");
+    final JLabel lblLeftTeamName = new JLabel("Team 1");  // FIXME make a way to easily mirror main window's labels
+    final JLabel lblRightTeamName = new JLabel("Team 2");
+    final JLabel lblLeftTeamScore = new JLabel("0");
+    final JLabel lblRightTeamScore = new JLabel("0");
+    final JLabel lblTimer = new JLabel("00:00");
 
     private final JPanel pnlLeftTeamPlayers = new JPanel();
     private final JPanel pnlRightTeamPlayers = new JPanel();
-    private final JPanel pnlSuspendedPlayers = new JPanel();
+    final JPanel pnlSuspendedPlayers = new JPanel();
+
+    final JLabel[] lblLeftTeamPlayers = new JLabel[7];
+    final JLabel[] lblRightTeamPlayers = new JLabel[7];
 
     private final Application application;
 
@@ -42,11 +46,41 @@ class PublicWindow extends JFrame {
         setVisible(true);
 
         Logging.info("Created public window");
+    }
 
-        lblLeftTeamName.setText(application.match.getLeftTeam().getName());  // FIXME these
-        lblRightTeamName.setText(application.match.getRightTeam().getName());
-        lblLeftTeamScore.setText(String.valueOf(application.match.getLeftTeam().getTotalScore()));
-        lblRightTeamScore.setText(String.valueOf(application.match.getRightTeam().getTotalScore()));
+    void setupData() {
+        if (application.match == null) {
+            return;
+        }
+
+        lblTimer.setText(application.lblTimer.getText());
+        lblLeftTeamName.setText(application.lblLeftTeamName.getText());
+        lblRightTeamName.setText(application.lblRightTeamName.getText());
+        lblLeftTeamScore.setText(application.lblLeftTeamScore.getText());
+        lblRightTeamScore.setText(application.lblRightTeamScore.getText());
+
+        for (int i = 0; i < 7; i++) {
+            String text;
+            JLabel label;
+
+            text = application.leftTeamPlayers.get(i) + " - " + application.match.getLeftTeam().getPlayers()[i].getScore();
+            label = new JLabel(text);
+            label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            lblLeftTeamPlayers[i] = label;
+            pnlLeftTeamPlayers.add(label);
+
+            text = application.rightTeamPlayers.get(i) + " - " + application.match.getRightTeam().getPlayers()[i].getScore();
+            label = new JLabel(text);
+            label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            lblRightTeamPlayers[i] = label;
+            pnlRightTeamPlayers.add(label);
+        }
+
+        for (Player player : application.match.getSuspendedPlayers()) {
+            pnlSuspendedPlayers.add(new JLabel(player.getName() + "[" + player.getNumber() + "]"));
+        }
+
+        Logging.info("Setup public window data");
     }
 
     private void setupLayout() {
@@ -127,6 +161,14 @@ class PublicWindow extends JFrame {
         lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
         lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamScore.setHorizontalAlignment(JLabel.CENTER);
+
+        pnlLeftTeamPlayers.setBorder(BorderFactory.createEtchedBorder());
+        pnlRightTeamPlayers.setBorder(BorderFactory.createEtchedBorder());
+        pnlSuspendedPlayers.setBorder(BorderFactory.createEtchedBorder());
+
+        pnlLeftTeamPlayers.setLayout(new BoxLayout(pnlLeftTeamPlayers, BoxLayout.Y_AXIS));
+        pnlRightTeamPlayers.setLayout(new BoxLayout(pnlRightTeamPlayers, BoxLayout.Y_AXIS));
+        pnlSuspendedPlayers.setLayout(new BoxLayout(pnlSuspendedPlayers, BoxLayout.Y_AXIS));
 
         add(pnlMain);
         pack();

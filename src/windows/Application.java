@@ -8,6 +8,7 @@ import handball.Match;
 import handball.MatchStatus;
 import handball.Player;
 import handball.Team;
+import other.EntangledLabel;
 import other.Logging;
 import timer.Timer;
 
@@ -26,19 +27,19 @@ public class Application extends JFrame {
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
-    private final JLabel lblLeftTeamName = new JLabel("Team 1");
-    private final JLabel lblRightTeamName = new JLabel("Team 2");
-    private final JLabel lblLeftTeamScore = new JLabel("0");
-    private final JLabel lblRightTeamScore = new JLabel("0");
+    final EntangledLabel lblLeftTeamName = new EntangledLabel("Team 1", null);
+    final EntangledLabel lblRightTeamName = new EntangledLabel("Team 2", null);
+    final EntangledLabel lblLeftTeamScore = new EntangledLabel("0", null);
+    final EntangledLabel lblRightTeamScore = new EntangledLabel("0", null);
 
-    private final DefaultListModel<String> leftTeamPlayers = new DefaultListModel<>();
-    private final DefaultListModel<String> rightTeamPlayers = new DefaultListModel<>();
+    final DefaultListModel<String> leftTeamPlayers = new DefaultListModel<>();
+    final DefaultListModel<String> rightTeamPlayers = new DefaultListModel<>();
 
     private final JList<String> lstLeftTeamPlayers = new JList<>(leftTeamPlayers);
     private final JList<String> lstRightTeamPlayers = new JList<>(rightTeamPlayers);
 
+    final EntangledLabel lblTimer = new EntangledLabel("00:00", null);
     private final JPanel pnlSuspendedPlayers = new JPanel();
-    private final JLabel lblTimer = new JLabel("00:00");
     private final JLabel lblSelectedPlayerNameNumber = new JLabel("n/a");
     private final JLabel lblSelectedPlayerScore = new JLabel("n/a");
     private final JLabel lblSelectedPlayerHasYellowCard = new JLabel("n/a");
@@ -54,6 +55,8 @@ public class Application extends JFrame {
     private Timer teamTimeoutTimer = null;
     private Player selectedPlayer = null;
     private boolean isTeamTimeout = false;
+
+    private PublicWindow publicWindow = null;
 
     public Application() {
         super("JHandball Table");
@@ -88,6 +91,10 @@ public class Application extends JFrame {
             final String entry = player.getName() + "[" + player.getNumber() + "]";
 
             rightTeamPlayers.add(i, entry);
+        }
+
+        if (publicWindow != null) {
+            publicWindow.setupData();
         }
     }
 
@@ -242,6 +249,8 @@ public class Application extends JFrame {
         lblRightTeamName.setHorizontalAlignment(JLabel.CENTER);
         lblLeftTeamScore.setHorizontalAlignment(JLabel.CENTER);
         lblRightTeamScore.setHorizontalAlignment(JLabel.CENTER);
+
+        pnlSuspendedPlayers.setLayout(new BoxLayout(pnlSuspendedPlayers, BoxLayout.Y_AXIS));
 
         pnlTeams.setBorder(BorderFactory.createEtchedBorder());
     }
@@ -580,7 +589,15 @@ public class Application extends JFrame {
     }
 
     private void showPublicWindow() {
-        new PublicWindow(this);
+        publicWindow = new PublicWindow(this);
+
+        lblTimer.setAnother(publicWindow.lblTimer);
+        lblLeftTeamName.setAnother(publicWindow.lblLeftTeamName);
+        lblRightTeamName.setAnother(publicWindow.lblRightTeamName);
+        lblLeftTeamScore.setAnother(publicWindow.lblLeftTeamScore);
+        lblRightTeamScore.setAnother(publicWindow.lblRightTeamScore);
+
+        publicWindow.setupData();
     }
 
     private void scoreDownPlayer() {
@@ -599,6 +616,10 @@ public class Application extends JFrame {
         lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
         lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
         fillSelectedPlayerData();
+
+        if (publicWindow != null) {
+            updateSelectedPlayerTextInPublicWindow();
+        }
     }
 
     private void releasePlayer() {
@@ -735,6 +756,10 @@ public class Application extends JFrame {
         lblLeftTeamScore.setText(String.valueOf(match.getLeftTeam().getTotalScore()));
         lblRightTeamScore.setText(String.valueOf(match.getRightTeam().getTotalScore()));
         fillSelectedPlayerData();
+
+        if (publicWindow != null) {
+            updateSelectedPlayerTextInPublicWindow();
+        }
     }
 
     private void suspendPlayer() {
@@ -805,6 +830,21 @@ public class Application extends JFrame {
         lblSelectedPlayerHasYellowCard.setText("Yellow Card: " + (selectedPlayer.hasYellowCard() ?  "true" : "false"));
         lblSelectedPlayerHasRedCard.setText("Red Card: " + (selectedPlayer.hasRedCard() ?  "true" : "false"));
         lblSelectedPlayerIsSuspended.setText("Suspended: " + (selectedPlayer.isSuspended() ? "true" : "false"));
+    }
+
+    private void updateSelectedPlayerTextInPublicWindow() {
+        final int leftIndex = lstLeftTeamPlayers.getSelectedIndex();
+        final int rightIndex = lstRightTeamPlayers.getSelectedIndex();
+
+        if (leftIndex != -1) {
+            final String text = leftTeamPlayers.get(leftIndex) + " - " + match.getLeftTeam().getPlayers()[leftIndex].getScore();
+            publicWindow.lblLeftTeamPlayers[leftIndex].setText(text);
+        } else if (rightIndex != -1) {
+            final String text = rightTeamPlayers.get(rightIndex) + " - " + match.getRightTeam().getPlayers()[rightIndex].getScore();
+            publicWindow.lblRightTeamPlayers[rightIndex].setText(text);
+        } else {
+            assert false;
+        }
     }
 
     private Timer createHalf1Timer() {

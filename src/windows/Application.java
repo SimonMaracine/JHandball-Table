@@ -53,6 +53,7 @@ public class Application extends JFrame {
     private Timer matchTimer = null;
     private Timer teamTimeoutTimer = null;
     private Player selectedPlayer = null;
+    private boolean isTeamTimeout = false;
 
     public Application() {
         super("JHandball Table");
@@ -435,6 +436,19 @@ public class Application extends JFrame {
             return;
         }
 
+        if (isTeamTimeout) {
+            switch (matchStatus) {
+                case Half1, Half2, Overtime1, Overtime2 -> {
+                    matchTimer.start();
+                    teamTimeoutTimer = null;
+                    isTeamTimeout = false;
+                }
+                default -> Logging.warning("There is nothing to begin. It's team timeout");
+            }
+
+            return;
+        }
+
         switch (matchStatus) {
             case Half1 -> {
                 if (matchTimer == null || !matchTimer.isRunning()) {
@@ -544,7 +558,20 @@ public class Application extends JFrame {
 
         match = new Match(leftTeam, rightTeam, new Date());
 
+        if (matchTimer.isRunning()) {
+            matchTimer.stop();
+        }
+
+        if (teamTimeoutTimer.isRunning()) {
+            teamTimeoutTimer.stop();
+        }
+
         matchTimer = null;
+        teamTimeoutTimer = null;
+        lblTimer.setText("00:00");
+        isTeamTimeout = false;
+        selectedPlayer = null;
+
         matchStatus = MatchStatus.Half1;
         previousMatchStatus = matchStatus;
         lblMatchStatus.setText(matchStatus.toString());
@@ -604,7 +631,7 @@ public class Application extends JFrame {
         new AboutWindow();
     }
 
-    private void leftTeamTimeout() {  // TODO test
+    private void leftTeamTimeout() {
         if (match == null) {
             Logging.warning("Match is not initialized");
             return;
@@ -626,6 +653,8 @@ public class Application extends JFrame {
             return;
         }
 
+        assert !isTeamTimeout;
+
         matchTimer.stop();
 
         teamTimeoutTimer = createTeamTimeoutTimer();
@@ -635,10 +664,45 @@ public class Application extends JFrame {
         lblMatchStatus.setText(matchStatus.toString());
 
         match.getLeftTeam().addToNumberOfTimeoutCalls();
+
+        isTeamTimeout = true;
     }
 
     private void rightTeamTimeout() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
 
+        if (matchTimer == null || !matchTimer.isRunning()) {
+            Logging.warning("Match is not running");
+            return;
+        }
+
+        if (matchStatus != MatchStatus.Half1 && matchStatus != MatchStatus.Half2
+                && matchStatus != MatchStatus.Overtime1 && matchStatus != MatchStatus.Overtime2) {
+            Logging.warning("Match is not running");
+            return;
+        }
+
+        if (match.getRightTeam().getNumberOfTimeoutCalls() == 3) {
+            showTeamTimeoutCallsPopup();
+            return;
+        }
+
+        assert !isTeamTimeout;
+
+        matchTimer.stop();
+
+        teamTimeoutTimer = createTeamTimeoutTimer();
+        teamTimeoutTimer.start();
+
+        matchStatus = MatchStatus.RightTeamTimeout;
+        lblMatchStatus.setText(matchStatus.toString());
+
+        match.getRightTeam().addToNumberOfTimeoutCalls();
+
+        isTeamTimeout = true;
     }
 
     private void refereeTimeout() {
@@ -651,6 +715,8 @@ public class Application extends JFrame {
             Logging.warning("Match is not running");
             return;
         }
+
+        assert !isTeamTimeout;
 
         matchTimer.stop();
 
@@ -792,7 +858,7 @@ public class Application extends JFrame {
     }
 
     private Timer createTeamTimeoutTimer() {
-        Logging.info("Creating timeout timer...");
+        Logging.info("Creating TeamTimeout timer...");
 
         return new Timer(lblTimer, Team.TIMEOUT_TIME, () -> {
             matchStatus = previousMatchStatus;

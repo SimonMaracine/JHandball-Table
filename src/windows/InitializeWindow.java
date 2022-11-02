@@ -289,7 +289,7 @@ class InitializeWindow extends JFrame {
 
     private void showNumberPopup(int team, int number) {
         JOptionPane.showMessageDialog(
-            this, "Only digits are accepted for team " + team + ", number " + number + "!", "Invalid", JOptionPane.ERROR_MESSAGE
+            this, "Only digits are accepted for team " + team + ", player " + number + "!", "Invalid", JOptionPane.ERROR_MESSAGE
         );
 
         Logging.warning("Invalid input (numbers)");
@@ -297,7 +297,7 @@ class InitializeWindow extends JFrame {
 
     private void showNumberBoundPopup(int team, int number) {
         JOptionPane.showMessageDialog(
-            this, "Only numbers between 1 and 99 are accepted for team " + team + ", number " + number + "!", "Invalid", JOptionPane.ERROR_MESSAGE
+            this, "Only numbers between 1 and 99 are accepted for team " + team + ", player " + number + "!", "Invalid", JOptionPane.ERROR_MESSAGE
         );
 
         Logging.warning("Invalid input (numbers)");

@@ -1,6 +1,5 @@
 package windows;
 
-import handball.Player;
 import handball.SuspendedPlayer;
 import other.Logging;
 
@@ -18,12 +17,12 @@ class PublicWindow extends JFrame {
     private static final int MIN_HEIGHT = 630;
 
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 40);  // TODO choose fallback fonts
-    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 80);
-    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 120);
+    private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 90);
+    private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 130);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
-    final JLabel lblLeftTeamName = new JLabel("Team 1");  // FIXME make a way to easily mirror main window's labels
+    final JLabel lblLeftTeamName = new JLabel("Team 1");
     final JLabel lblRightTeamName = new JLabel("Team 2");
     final JLabel lblLeftTeamScore = new JLabel("0");
     final JLabel lblRightTeamScore = new JLabel("0");

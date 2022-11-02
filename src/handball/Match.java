@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Match {
-    public static final int HALF_MATCH_TIME = 30;// * 60;  // FIXME make these right!!!
-    public static final int INTERMISSION_TIME = 10;// * 60;
-    public static final int OVERTIME_TIME = 5;// * 60;
+    public static final int HALF_MATCH_TIME = 30 * 60;
+    public static final int INTERMISSION_TIME = 10 * 60;
+    public static final int OVERTIME_TIME = 5 * 60;
 
     private final Team leftTeam;
     private final Team rightTeam;

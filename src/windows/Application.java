@@ -917,6 +917,8 @@ public class Application extends JFrame {
 
         match.getSuspendedPlayers().remove(suspendedPlayer.getIndex());
 
+        suspendedPlayer.getPlayer().release();
+
         Logging.info("Called suspendedPlayerFinish on player " + suspendedPlayer.getPlayer());
     }
 

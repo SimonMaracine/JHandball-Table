@@ -3,7 +3,7 @@ package handball;
 import timer.Timer;
 
 public class SuspendedPlayer {
-    public static final int SUSPENSION_TIME = 2;// * 60;  // FIXME make this right!!!
+    public static final int SUSPENSION_TIME = 2 * 60;
 
     private Timer timer;
     private final Player player;

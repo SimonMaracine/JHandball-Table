@@ -1,7 +1,7 @@
 package handball;
 
 public class Team {
-    public static final int TIMEOUT_TIME = 3;// 1 * 60;  // FIXME make this right!!!
+    public static final int TIMEOUT_TIME = 1 * 60;
 
     private final String name;
     private int totalScore = 0;

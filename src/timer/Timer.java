@@ -13,6 +13,7 @@ public class Timer implements Runnable {
     private Thread thread;
     private final int timeUntilStop;
     private final TimerStopCallback stopCallback;
+    private String suffix = "";
 
     private final JLabel lblTime;
 
@@ -20,6 +21,13 @@ public class Timer implements Runnable {
         this.lblTime = lblTime;
         this.timeUntilStop = Math.min(timeUntilStop, MAX_TIME);
         this.stopCallback = stopCallback;
+    }
+
+    public Timer(JLabel lblTime, int timeUntilStop, TimerStopCallback stopCallback, String suffix) {
+        this.lblTime = lblTime;
+        this.timeUntilStop = Math.min(timeUntilStop, MAX_TIME);
+        this.stopCallback = stopCallback;
+        this.suffix = suffix;
     }
 
     public int getTime() {
@@ -73,7 +81,7 @@ public class Timer implements Runnable {
                     SwingUtilities.invokeLater(stopCallback::execute);
                 }
 
-                SwingUtilities.invokeLater(() -> lblTime.setText(getTimeFormatted()));
+                SwingUtilities.invokeLater(() -> lblTime.setText(suffix + getTimeFormatted()));
             }
 
             try {

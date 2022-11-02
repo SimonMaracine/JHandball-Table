@@ -3,8 +3,11 @@ package handball;
 import timer.Timer;
 
 public class SuspendedPlayer {
-    private final Timer timer;
+    public static final int SUSPENSION_TIME = 2;// * 60;  // FIXME make this right!!!
+
+    private Timer timer;
     private final Player player;
+    private int index;
 
     public SuspendedPlayer(Timer timer, Player player) {
         this.timer = timer;
@@ -15,7 +18,19 @@ public class SuspendedPlayer {
         return timer;
     }
 
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

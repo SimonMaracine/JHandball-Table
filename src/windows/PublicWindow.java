@@ -1,10 +1,14 @@
 package windows;
 
 import handball.Player;
+import handball.SuspendedPlayer;
 import other.Logging;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -31,6 +35,7 @@ class PublicWindow extends JFrame {
 
     final JLabel[] lblLeftTeamPlayers = new JLabel[7];
     final JLabel[] lblRightTeamPlayers = new JLabel[7];
+    final ArrayList<JLabel> lblSuspendedPlayers = new ArrayList<>();
 
     private final Application application;
 
@@ -44,6 +49,24 @@ class PublicWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+
+                application.publicWindow = null;
+                Logging.info("Set publicWindow to null");
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+
+                application.publicWindow = null;
+                Logging.info("Set publicWindow to null");
+            }
+        });
 
         Logging.info("Created public window");
     }
@@ -76,8 +99,8 @@ class PublicWindow extends JFrame {
             pnlRightTeamPlayers.add(label);
         }
 
-        for (Player player : application.match.getSuspendedPlayers()) {
-            pnlSuspendedPlayers.add(new JLabel(player.getName() + "[" + player.getNumber() + "]"));
+        for (SuspendedPlayer player : application.match.getSuspendedPlayers()) {
+            pnlSuspendedPlayers.add(new JLabel(player.getPlayer().getName() + "[" + player.getPlayer().getNumber() + "]"));
         }
 
         Logging.info("Setup public window data");

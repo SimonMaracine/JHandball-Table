@@ -2,12 +2,10 @@ package windows;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Date;
 
-import handball.Match;
-import handball.MatchStatus;
-import handball.Player;
-import handball.Team;
+import handball.*;
 import other.EntangledLabel;
 import other.Logging;
 import timer.Timer;
@@ -46,6 +44,8 @@ public class Application extends JFrame {
     private final JLabel lblSelectedPlayerHasRedCard = new JLabel("n/a");
     private final JLabel lblSelectedPlayerIsSuspended = new JLabel("n/a");
 
+    final ArrayList<JLabel> lblSuspendedPlayers = new ArrayList<>();
+
     private MatchStatus matchStatus = MatchStatus.Half1;
     private final JLabel lblMatchStatus = new JLabel(matchStatus.toString());
     private MatchStatus previousMatchStatus = matchStatus;  // Used after timeouts
@@ -56,7 +56,7 @@ public class Application extends JFrame {
     private Player selectedPlayer = null;
     private boolean isTeamTimeout = false;
 
-    private PublicWindow publicWindow = null;
+    PublicWindow publicWindow = null;
 
     public Application() {
         super("JHandball Table");
@@ -96,6 +96,8 @@ public class Application extends JFrame {
         if (publicWindow != null) {
             publicWindow.setupData();
         }
+
+        pack();
     }
 
     private void setupLayout() {
@@ -567,23 +569,39 @@ public class Application extends JFrame {
 
         match = new Match(leftTeam, rightTeam, new Date());
 
-        if (matchTimer.isRunning()) {
+        if (matchTimer != null && matchTimer.isRunning()) {
             matchTimer.stop();
         }
 
-        if (teamTimeoutTimer.isRunning()) {
+        if (teamTimeoutTimer != null && teamTimeoutTimer.isRunning()) {
             teamTimeoutTimer.stop();
         }
 
         matchTimer = null;
         teamTimeoutTimer = null;
-        lblTimer.setText("00:00");
         isTeamTimeout = false;
         selectedPlayer = null;
 
         matchStatus = MatchStatus.Half1;
         previousMatchStatus = matchStatus;
         lblMatchStatus.setText(matchStatus.toString());
+
+        lblSuspendedPlayers.clear();
+        pnlSuspendedPlayers.removeAll();
+
+        if (publicWindow != null) {
+            publicWindow.lblSuspendedPlayers.clear();
+            publicWindow.pnlSuspendedPlayers.removeAll();
+        }
+
+        lblTimer.setText("00:00");
+        lblLeftTeamScore.setText("0");
+        lblRightTeamScore.setText("0");
+        lblSelectedPlayerNameNumber.setText("n/a");
+        lblSelectedPlayerScore.setText("n/a");
+        lblSelectedPlayerHasYellowCard.setText("n/a");
+        lblSelectedPlayerHasRedCard.setText("n/a");
+        lblSelectedPlayerIsSuspended.setText("n/a");
 
         Logging.info("Reset match");
     }
@@ -763,7 +781,46 @@ public class Application extends JFrame {
     }
 
     private void suspendPlayer() {
+        if (selectedPlayer == null) {
+            Logging.warning("Selected player is null");
+            return;
+        }
 
+        if (selectedPlayer.getNumberOfSuspensions() == 2) {
+            showPlayerSuspensionsPopup();
+            return;
+        }
+
+        selectedPlayer.suspend();
+
+        final String text = selectedPlayer.getName() + " - 00:00";
+        final EntangledLabel label = new EntangledLabel(text, null);
+        label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+
+        SuspendedPlayer player = new SuspendedPlayer(null, selectedPlayer);
+        Timer timer = new Timer(label, SuspendedPlayer.SUSPENSION_TIME, () -> suspendedPlayerFinish(player), selectedPlayer.getName() + " - ");
+
+        pnlSuspendedPlayers.add(label);
+        lblSuspendedPlayers.add(label);
+        if (publicWindow != null) {
+            JLabel publicWindowLabel = new JLabel(text);
+            publicWindowLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+
+            publicWindow.pnlSuspendedPlayers.add(publicWindowLabel);
+            publicWindow.lblSuspendedPlayers.add(publicWindowLabel);
+
+            label.setAnother(publicWindow.lblSuspendedPlayers.get(publicWindow.lblSuspendedPlayers.size() - 1));
+        }
+        match.getSuspendedPlayers().add(player);
+
+        player.setTimer(timer);
+        player.setIndex(match.getSuspendedPlayers().size() - 1);
+
+        timer.start();
+
+        pack();
+
+        Logging.info("Suspended player " + selectedPlayer);
     }
 
     private void giveYellowCardPlayer() {
@@ -845,6 +902,22 @@ public class Application extends JFrame {
         } else {
             assert false;
         }
+    }
+
+    private void suspendedPlayerFinish(SuspendedPlayer suspendedPlayer) {
+        pnlSuspendedPlayers.remove(suspendedPlayer.getIndex());
+        lblSuspendedPlayers.remove(suspendedPlayer.getIndex());
+        pack();
+
+        if (publicWindow != null) {
+            publicWindow.pnlSuspendedPlayers.remove(suspendedPlayer.getIndex());
+            publicWindow.lblSuspendedPlayers.remove(suspendedPlayer.getIndex());
+            publicWindow.pack();
+        }
+
+        match.getSuspendedPlayers().remove(suspendedPlayer.getIndex());
+
+        Logging.info("Called suspendedPlayerFinish on player " + suspendedPlayer.getPlayer());
     }
 
     private Timer createHalf1Timer() {
@@ -930,6 +1003,14 @@ public class Application extends JFrame {
         Logging.warning("Team has already called timeout three times");
     }
 
+    private void showPlayerSuspensionsPopup() {
+        JOptionPane.showMessageDialog(
+            this, "Player has already been suspended twice. You must give them a red card", "Player Suspension", JOptionPane.ERROR_MESSAGE
+        );
+
+        Logging.warning("Player has already been suspended twice");
+    }
+
     private boolean showConfirmEndPopup() {
         int result = JOptionPane.showConfirmDialog(
             this, "Are you sure you want to end the match?", "End", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE
@@ -944,6 +1025,7 @@ public class Application extends JFrame {
         }
 
         Logging.severe("Result not handled");
+        assert false;
         return false;
     }
 
@@ -961,6 +1043,7 @@ public class Application extends JFrame {
         }
 
         Logging.severe("Result not handled");
+        assert false;
         return false;
     }
 }

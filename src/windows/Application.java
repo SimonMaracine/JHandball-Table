@@ -21,7 +21,8 @@ public class Application extends JFrame {
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 26);  // TODO choose fallback fonts
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 60);
     private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 80);
-    private static final Font PLAYER_DATA_FONT = new Font("Monospaced", Font.PLAIN, 24);
+    private static final Font SUSPENDED_PLAYER_FONT = new Font("Monospaced", Font.PLAIN, 22);
+    private static final Font PLAYER_DATA_FONT = new Font("Monospaced", Font.PLAIN, 22);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
@@ -44,7 +45,7 @@ public class Application extends JFrame {
     private final JLabel lblSelectedPlayerHasRedCard = new JLabel("n/a");
     private final JLabel lblSelectedPlayerIsSuspended = new JLabel("n/a");
 
-    final ArrayList<JLabel> lblSuspendedPlayers = new ArrayList<>();
+    final ArrayList<EntangledLabel> lblSuspendedPlayers = new ArrayList<>();
 
     private MatchStatus matchStatus = MatchStatus.Half1;
     private final JLabel lblMatchStatus = new JLabel(matchStatus.toString());
@@ -458,8 +459,12 @@ public class Application extends JFrame {
                     matchTimer.start();
                     teamTimeoutTimer = null;
                     isTeamTimeout = false;
+
+                    for (SuspendedPlayer player : match.getSuspendedPlayers()) {
+                        player.getTimer().start();  // TODO this
+                    }
                 }
-                default -> Logging.warning("There is nothing to begin. It's team timeout");
+                default -> Logging.warning("There is nothing to begin; it's team timeout");
             }
 
             return;
@@ -768,6 +773,10 @@ public class Application extends JFrame {
         match.getLeftTeam().addToNumberOfTimeoutCalls();
 
         isTeamTimeout = true;
+
+        for (SuspendedPlayer player : match.getSuspendedPlayers()) {
+            player.getTimer().stop();
+        }
     }
 
     private void rightTeamTimeout() {
@@ -810,6 +819,10 @@ public class Application extends JFrame {
         match.getRightTeam().addToNumberOfTimeoutCalls();
 
         isTeamTimeout = true;
+
+        for (SuspendedPlayer player : match.getSuspendedPlayers()) {
+            player.getTimer().stop();
+        }
     }
 
     private void refereeTimeout() {
@@ -834,6 +847,10 @@ public class Application extends JFrame {
 
         matchStatus = MatchStatus.RefereeTimeout;
         lblMatchStatus.setText(matchStatus.toString());
+
+        for (SuspendedPlayer player : match.getSuspendedPlayers()) {
+            player.getTimer().stop();
+        }
     }
 
     private void scoreUpPlayer() {
@@ -874,6 +891,12 @@ public class Application extends JFrame {
             return;
         }
 
+        if (matchStatus != MatchStatus.Half1 && matchStatus != MatchStatus.Half2
+                || matchTimer == null || !matchTimer.isRunning()) {
+            showMatchNotRunningPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -889,6 +912,7 @@ public class Application extends JFrame {
         final String text = selectedPlayer.getName() + " - 00:00";
         final EntangledLabel label = new EntangledLabel(text, null);
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        label.setFont(SUSPENDED_PLAYER_FONT);
 
         SuspendedPlayer player = new SuspendedPlayer(null, selectedPlayer);
         Timer timer = new Timer(label, SuspendedPlayer.SUSPENSION_TIME, () -> suspendedPlayerFinish(player), selectedPlayer.getName() + " - ");
@@ -898,11 +922,12 @@ public class Application extends JFrame {
         if (publicWindow != null) {
             JLabel publicWindowLabel = new JLabel(text);
             publicWindowLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            publicWindowLabel.setFont(PublicWindow.SUSPENDED_PLAYER_FONT);
 
             publicWindow.pnlSuspendedPlayers.add(publicWindowLabel);
             publicWindow.lblSuspendedPlayers.add(publicWindowLabel);
 
-            label.setAnother(publicWindow.lblSuspendedPlayers.get(publicWindow.lblSuspendedPlayers.size() - 1));
+            label.setAnother(publicWindowLabel);
         }
         match.getSuspendedPlayers().add(player);
 
@@ -1098,6 +1123,12 @@ public class Application extends JFrame {
         JOptionPane.showMessageDialog(this, "Match is not initialized.", "Match", JOptionPane.ERROR_MESSAGE);
 
         Logging.warning("Match is not initialized");
+    }
+
+    private void showMatchNotRunningPopup() {
+        JOptionPane.showMessageDialog(this, "Match is not running.", "Match", JOptionPane.ERROR_MESSAGE);
+
+        Logging.warning("Match is not running");
     }
 
     private void showNothingToBeginPopup() {

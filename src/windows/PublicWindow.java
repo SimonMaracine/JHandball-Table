@@ -19,6 +19,7 @@ class PublicWindow extends JFrame {
     private static final Font TEAM_NAME_FONT = new Font("Monospaced", Font.PLAIN, 40);  // TODO choose fallback fonts
     private static final Font TEAM_SCORE_FONT = new Font("Monospaced", Font.PLAIN, 90);
     private static final Font TIMER_FONT = new Font("Monospaced", Font.PLAIN, 130);
+    public static final Font SUSPENDED_PLAYER_FONT = new Font("Monospaced", Font.PLAIN, 30);
 
     private final JPanel pnlMain = new JPanel(new GridBagLayout());
 
@@ -99,7 +100,12 @@ class PublicWindow extends JFrame {
         }
 
         for (SuspendedPlayer player : application.match.getSuspendedPlayers()) {
-            pnlSuspendedPlayers.add(new JLabel(player.getPlayer().getName() + "[" + player.getPlayer().getNumber() + "]"));
+            JLabel label = new JLabel(player.getPlayer().getName() + player.getTimer().getTimeFormatted());
+            label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            label.setFont(SUSPENDED_PLAYER_FONT);
+            pnlSuspendedPlayers.add(label);
+
+            application.lblSuspendedPlayers.get(player.getIndex()).setAnother(label);
         }
 
         Logging.info("Setup public window data");

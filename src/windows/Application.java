@@ -447,6 +447,11 @@ public class Application extends JFrame {
             return;
         }
 
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (isTeamTimeout) {
             switch (matchStatus) {
                 case Half1, Half2, Overtime1, Overtime2 -> {
@@ -520,15 +525,30 @@ public class Application extends JFrame {
         Logging.info("(Re)Started match");
     }
 
-    private void endMatch() {  // TODO implement the rest
-        assert match != null;
-        assert matchTimer != null;
+    private void endMatch() {
+        if (match == null) {
+            showMatchNotInitializedPopup();
+            return;
+        }
 
         if (!showConfirmEndPopup()) {
             return;
         }
 
-        matchTimer.stop();  // TODO check
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
+        if (matchTimer != null && !matchTimer.isRunning()) {
+            matchTimer.stop();
+        }
+
+        if (teamTimeoutTimer != null && teamTimeoutTimer.isRunning()) {
+            teamTimeoutTimer.stop();
+        }
+
+        match.end();
 
         Logging.info("Ended match");
     }
@@ -619,6 +639,16 @@ public class Application extends JFrame {
     }
 
     private void scoreDownPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -641,10 +671,28 @@ public class Application extends JFrame {
     }
 
     private void releasePlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
 
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
     }
 
     private void takeYellowCardPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -656,6 +704,16 @@ public class Application extends JFrame {
     }
 
     private void takeRedCardPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -673,6 +731,11 @@ public class Application extends JFrame {
     private void leftTeamTimeout() {
         if (match == null) {
             Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
             return;
         }
 
@@ -713,6 +776,11 @@ public class Application extends JFrame {
             return;
         }
 
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (matchTimer == null || !matchTimer.isRunning()) {
             Logging.warning("Match is not running");
             return;
@@ -750,6 +818,11 @@ public class Application extends JFrame {
             return;
         }
 
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (matchTimer == null || !matchTimer.isRunning()) {
             Logging.warning("Match is not running");
             return;
@@ -764,6 +837,16 @@ public class Application extends JFrame {
     }
 
     private void scoreUpPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -781,6 +864,16 @@ public class Application extends JFrame {
     }
 
     private void suspendPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -824,6 +917,16 @@ public class Application extends JFrame {
     }
 
     private void giveYellowCardPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -835,6 +938,16 @@ public class Application extends JFrame {
     }
 
     private void giveRedCardPlayer() {
+        if (match == null) {
+            Logging.warning("Match is not initialized");
+            return;
+        }
+
+        if (match.hasEnded()) {
+            showMatchEndedPopup();
+            return;
+        }
+
         if (selectedPlayer == null) {
             Logging.warning("Selected player is null");
             return;
@@ -1007,10 +1120,18 @@ public class Application extends JFrame {
 
     private void showPlayerSuspensionsPopup() {
         JOptionPane.showMessageDialog(
-            this, "Player has already been suspended twice. You must give them a red card", "Player Suspension", JOptionPane.ERROR_MESSAGE
+            this, "Player has already been suspended twice. You must give them a red card.", "Player Suspension", JOptionPane.ERROR_MESSAGE
         );
 
         Logging.warning("Player has already been suspended twice");
+    }
+
+    private void showMatchEndedPopup() {
+        JOptionPane.showMessageDialog(
+            this, "Match has been ended. Please restart it.", "Match Ended", JOptionPane.ERROR_MESSAGE
+        );
+
+        Logging.warning("Match has been ended");
     }
 
     private boolean showConfirmEndPopup() {

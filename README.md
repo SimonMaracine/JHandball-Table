@@ -14,4 +14,4 @@ A match has the following states: two halves, a break between them, timeouts and
 
 ## UML Diagram
 
-![UML diagram](UML/HandballDiagram.png)
+![UML diagram](UML/Handball.png)
